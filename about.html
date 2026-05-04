@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rong Cheff | Home</title>
+    <title>The Rong Cheff | About</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">🍛 The Rong Cheff</div>
-            <ul>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                The Rong Cheff
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul id="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="menu.html">Menu</a></li>
-                <li><a href="about.html">About</a></li>
+                <li><a href="about.html" class="active">About</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -21,16 +28,77 @@
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Welcome to The Rong Cheff's Kitchen</h1>
-            <p>Authentic flavors, modern techniques.</p>
-            <a href="contact.html" class="btn">Book a Table</a>
+        <section class="page-header">
+            <h1>About The Rong Cheff</h1>
+            <p>The story behind the flavors</p>
         </section>
-        <!-- More sections: featured dishes, testimonials -->
+
+        <section class="about-content">
+            <div class="about-text">
+                <h2>From Passion to Plate</h2>
+                <p>Chef Rong's journey began 15 years ago in a small kitchen, experimenting with family recipes and local ingredients. Today, The Rong Cheff represents the fusion of traditional techniques with modern creativity.</p>
+                
+                <h3>Our Philosophy</h3>
+                <p>We believe that great food tells a story. Every dish we create uses locally-sourced, seasonal ingredients prepared with precision and love.</p>
+                
+                <h3>Achievements</h3>
+                <ul>
+                    <li>🏆 Best Emerging Chef 2023</li>
+                    <li>⭐ Michelin Guide Recommendation 2024</li>
+                    <li>📺 Featured on "Taste of Excellence" TV Show</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="images/chef-placeholder.jpg" alt="Chef Rong" id="chef-img">
+                <!-- Replace with actual chef photo -->
+            </div>
+        </section>
+
+        <section class="values">
+            <h2>What Drives Us</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Fresh Ingredients</h3>
+                    <p>Daily sourced from local farmers</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Passion</h3>
+                    <p>Cooked with genuine enthusiasm</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Community</h3>
+                    <p>Bringing people together through food</p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 The Rong Cheff. Follow on <a href="#">Instagram</a></p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>The Rong Cheff</h3>
+                <p>Bringing extraordinary flavors to your table.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> hello@therongcheff.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 The Rong Cheff. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>

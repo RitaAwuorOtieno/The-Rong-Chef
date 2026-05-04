@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Rong Cheff | Home</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">🍛 The Rong Cheff</div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                The Rong Cheff
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="menu.html">Menu</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
@@ -22,15 +29,65 @@
 
     <main>
         <section class="hero">
-            <h1>Welcome to The Rong Cheff's Kitchen</h1>
-            <p>Authentic flavors, modern techniques.</p>
-            <a href="contact.html" class="btn">Book a Table</a>
+            <div class="hero-content">
+                <h1>The Rong Cheff</h1>
+                <p>Where passion meets flavor</p>
+                <a href="contact.html" class="btn btn-primary">Reserve a Table</a>
+            </div>
         </section>
-        <!-- More sections: featured dishes, testimonials -->
+
+        <section class="featured-dishes">
+            <h2>Featured Signature Dishes</h2>
+            <div class="dishes-grid" id="featured-dishes">
+                <!-- JS will load featured dishes -->
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Guests Say</h2>
+            <div class="testimonial-container">
+                <div class="testimonial">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <p>"Absolutely incredible food! The Rong Cheff's culinary skills are unmatched."</p>
+                    <h4>- Maria G.</h4>
+                </div>
+                <div class="testimonial">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <p>"Best dining experience I've had in years. Every dish is a masterpiece."</p>
+                    <h4>- James K.</h4>
+                </div>
+                <div class="testimonial">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <p>"The attention to detail and flavors are exceptional. Highly recommend!"</p>
+                    <h4>- Sarah L.</h4>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 The Rong Cheff. Follow on <a href="#">Instagram</a></p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>The Rong Cheff</h3>
+                <p>Bringing extraordinary flavors to your table.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> hello@therongcheff.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 The Rong Cheff. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>

@@ -3,35 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rong Cheff | Home</title>
+    <title>The Rong Cheff | Contact</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">🍛 The Rong Cheff</div>
-            <ul>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                The Rong Cheff
+            </div>
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul id="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="menu.html">Menu</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-     <form name="contact" method="POST" data-netlify="true">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="date" name="date" placeholder="Preferred Date">
-    <textarea name="message" placeholder="Special requests"></textarea>
-    <button type="submit">Send Booking Request</button>
-</form>
+        <section class="page-header">
+            <h1>Contact & Bookings</h1>
+            <p>Reserve your table or get in touch with us</p>
+        </section>
+
+        <section class="contact-container">
+            <div class="contact-info">
+                <h2>Visit Us</h2>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Culinary Street, Foodie District, NY 10001</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> hello@therongcheff.com</p>
+                
+                <h2>Opening Hours</h2>
+                <p>Tuesday - Sunday: 11:00 AM - 10:00 PM</p>
+                <p>Monday: Closed</p>
+                
+                <h2>Follow Us</h2>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Make a Reservation</h2>
+                <form name="booking" method="POST" data-netlify="true">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="tel" name="phone" placeholder="Phone Number">
+                    <input type="date" name="date" required>
+                    <select name="time">
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                        <option value="20:00">8:00 PM</option>
+                    </select>
+                    <select name="guests">
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5+">5+ Guests</option>
+                    </select>
+                    <textarea name="message" placeholder="Special requests or dietary restrictions"></textarea>
+                    <button type="submit" class="btn btn-primary">Book Now</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 The Rong Cheff. Follow on <a href="#">Instagram</a></p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>The Rong Cheff</h3>
+                <p>Bringing extraordinary flavors to your table.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> hello@therongcheff.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 The Rong Cheff. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>
