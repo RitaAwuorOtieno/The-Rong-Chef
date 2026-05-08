@@ -16,10 +16,26 @@ const menuData = {
 };
 
 // Featured Dishes (for homepage)
+// Featured Dishes (for homepage) - UPDATE THIS SECTION
 const featuredDishes = [
-    { name: "Chef's Signature Pasta", description: "Handmade pasta with secret family sauce", price: "$26", img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400" },
-    { name: "Lamb Rack", description: "Herb-crusted with red wine reduction", price: "$34", img: "https://images.unsplash.com/photo-1545243424-0ce743321e11?w=400" },
-    { name: "Seafood Paella", description: "Fresh shrimp, mussels, and saffron rice", price: "$32", img: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=400" }
+    { 
+        name: "Chef's Signature Pasta", 
+        description: "Handmade pasta with secret family sauce", 
+        price: "$26", 
+        img: "images/signature-pasta.jpg"  // Change to your local image path
+    },
+    { 
+        name: "Lamb Rack", 
+        description: "Herb-crusted with red wine reduction", 
+        price: "$34", 
+        img: "images/lamb-rack.jpg"  // Change to your local image path
+    },
+    { 
+        name: "Seafood Paella", 
+        description: "Fresh shrimp, mussels, and saffron rice", 
+        price: "$32", 
+        img: "images/seafood-paella.jpg"  // Change to your local image path
+    }
 ];
 
 // Gallery Images
