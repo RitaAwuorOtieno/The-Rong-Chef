@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,86 @@
     <title>The Rong Chef | Home</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+  import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+  
+   const firebaseConfig = {
+  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+  authDomain: "the-rong-chef.firebaseapp.com",
+  projectId: "the-rong-chef",
+  storageBucket: "the-rong-chef.firebasestorage.app",
+  messagingSenderId: "9185728688",
+  appId: "1:9185728688:web:5aeeaca66312de1051c375"
+};
+  
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  
+  window.db = db;
+  window.auth = auth;
+  
+  // Check login status to show/hide admin link
+  onAuthStateChanged(auth, (user) => {
+    const adminLink = document.getElementById('admin-link');
+    if (adminLink) {
+      if (user) {
+        adminLink.style.display = 'inline-block';
+      } else {
+        adminLink.style.display = 'none';
+      }
+    }
+  });
+  
+  // Load testimonials from Firebase
+  async function loadFirebaseTestimonials() {
+    const container = document.getElementById('dynamic-testimonials');
+    if (!container) return;
+    
+    try {
+      const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(3));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        container.innerHTML = '<div class="testimonial">No reviews yet. Be the first to leave a remark!</div>';
+        return;
+      }
+      
+      container.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        const remark = doc.data();
+        container.innerHTML += `
+          <div class="testimonial">
+            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
+              ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
+            </div>
+            <p>"${remark.text}"</p>
+            <h4>- ${remark.author}</h4>
+            <small>${new Date(remark.date).toLocaleDateString()}</small>
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error('Error loading testimonials:', error);
+      container.innerHTML = '<div class="testimonial">Unable to load reviews. Please try again later.</div>';
+    }
+  }
+  
+  // Make function available globally
+  window.loadFirebaseTestimonials = loadFirebaseTestimonials;
+  
+  // Load when page ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFirebaseTestimonials);
+  } else {
+    loadFirebaseTestimonials();
+  }
+</script>
+
 </head>
 <body>
     <header>
@@ -17,13 +98,14 @@
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-            <ul id="nav-menu">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="menu.html">Menu</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
+           <ul id="nav-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" style="color: #e67e22;">🔐 Admin Login</a></li>
+</ul>
         </nav>
     </header>
 
@@ -32,7 +114,7 @@
             <div class="hero-content">
                 <h1>The Rong Chef</h1>
                 <p>Just Keep Cooking</p>
-                <a href="contact.html" class="btn btn-primary">Reserve a Table</a>
+                <a href="contact.html" class="btn btn-primary">Reserve the Chef</a>
             </div>
         </section>
 
@@ -75,8 +157,13 @@
     </div>
 </section>
 
-        <section class="testimonials">
+            
+            <section class="testimonials">
             <h2>What Our Guests Say</h2>
+            <div class="testimonial-container" id="dynamic-testimonials">
+             <div>Loading reviews...</div>
+        </div>
+
             <div class="testimonial-container">
                 <div class="testimonial">
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>

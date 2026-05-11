@@ -6,6 +6,86 @@
     <title>The Rong Chef | Contact</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+        <!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+  import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+  
+   const firebaseConfig = {
+  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+  authDomain: "the-rong-chef.firebaseapp.com",
+  projectId: "the-rong-chef",
+  storageBucket: "the-rong-chef.firebasestorage.app",
+  messagingSenderId: "9185728688",
+  appId: "1:9185728688:web:5aeeaca66312de1051c375"
+};
+  
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  
+  window.db = db;
+  window.auth = auth;
+  
+  // Check login status to show/hide admin link
+  onAuthStateChanged(auth, (user) => {
+    const adminLink = document.getElementById('admin-link');
+    if (adminLink) {
+      if (user) {
+        adminLink.style.display = 'inline-block';
+      } else {
+        adminLink.style.display = 'none';
+      }
+    }
+  });
+  
+  // Load testimonials from Firebase
+  async function loadFirebaseTestimonials() {
+    const container = document.getElementById('dynamic-testimonials');
+    if (!container) return;
+    
+    try {
+      const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(3));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        container.innerHTML = '<div class="testimonial">No reviews yet. Be the first to leave a remark!</div>';
+        return;
+      }
+      
+      container.innerHTML = '';
+      querySnapshot.forEach((doc) => {
+        const remark = doc.data();
+        container.innerHTML += `
+          <div class="testimonial">
+            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
+              ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
+            </div>
+            <p>"${remark.text}"</p>
+            <h4>- ${remark.author}</h4>
+            <small>${new Date(remark.date).toLocaleDateString()}</small>
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error('Error loading testimonials:', error);
+      container.innerHTML = '<div class="testimonial">Unable to load reviews. Please try again later.</div>';
+    }
+  }
+  
+  // Make function available globally
+  window.loadFirebaseTestimonials = loadFirebaseTestimonials;
+  
+  // Load when page ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFirebaseTestimonials);
+  } else {
+    loadFirebaseTestimonials();
+  }
+</script>
+
 </head>
 <body>
     <header>
@@ -17,26 +97,27 @@
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-            <ul id="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="menu.html">Menu</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html" class="active">Contact</a></li>
-            </ul>
+          <ul id="nav-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html" style="color: #e67e22;">🔐 Admin Login</a></li>
+</ul>
         </nav>
     </header>
 
     <main>
         <section class="page-header">
-            <h1>Contact & Bookings</h1>
-            <p>Reserve your table or get in touch with us</p>
+            <h1>Contact & Reservation</h1>
+            <p>Reserve the Chef or get in touch with Him</p>
         </section>
 
         <section class="contact-container">
             <div class="contact-info">
-                <h2>Visit Us</h2>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Culinary Street, Foodie District, NY 10001</p>
+                <h2>Visit Me</h2>
+                <p><i class="fas fa-map-marker-alt"></i>Nairobi, Kenya</p>
                 <p><i class="fas fa-phone"></i> +254 741 639510</p>
                 <p><i class="fas fa-envelope"></i> Therongchef@gmail.com</p>
                 
@@ -44,38 +125,66 @@
                 <p>Tuesday - Sunday: 11:00 AM - 10:00 PM</p>
                 <p>Monday: Closed</p>
                 
-                <h2>Follow Us</h2>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
-                </div>
+                 <h3>Follow Us</h3>
+    <div class="social-links">
+        <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="www.tiktok.com/@therongchef" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href= "https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-threads"></i>
+        </a>
+        <a href="https://facebook.com/therongcheff" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-facebook"></i>
+        </a>
+    </div>
             </div>
 
             <div class="contact-form">
-                <h2>Make a Reservation</h2>
-                <form name="booking" method="POST" data-netlify="true">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Email Address" required>
-                    <input type="tel" name="phone" placeholder="Phone Number">
-                    <input type="date" name="date" required>
-                    <select name="time">
-                        <option value="12:00">12:00 PM</option>
-                        <option value="13:00">1:00 PM</option>
-                        <option value="18:00">6:00 PM</option>
-                        <option value="19:00">7:00 PM</option>
-                        <option value="20:00">8:00 PM</option>
-                    </select>
-                    <select name="guests">
-                        <option value="1">1 Guest</option>
-                        <option value="2">2 Guests</option>
-                        <option value="3">3 Guests</option>
-                        <option value="4">4 Guests</option>
-                        <option value="5+">5+ Guests</option>
-                    </select>
-                    <textarea name="message" placeholder="Special requests or dietary restrictions"></textarea>
-                    <button type="submit" class="btn btn-primary">Book Now</button>
-                </form>
-            </div>
+    <h2>Make a Reservation</h2>
+    
+    <!-- IMPORTANT: Add netlify attribute and form name -->
+    <form name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <!-- Honeypot field to prevent spam (hidden from users) -->
+        <input type="hidden" name="form-name" value="booking">
+        <p style="display: none;">
+            <label>Don't fill this out if you're human: <input name="bot-field"></label>
+        </p>
+        
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="tel" name="phone" placeholder="Phone Number">
+        <input type="date" name="date" required>
+        
+        <select name="time" required>
+            <option value="">Select Time</option>
+            <option value="12:00">12:00 PM</option>
+            <option value="13:00">1:00 PM</option>
+            <option value="18:00">6:00 PM</option>
+            <option value="19:00">7:00 PM</option>
+            <option value="20:00">8:00 PM</option>
+        </select>
+        
+        <select name="guests" required>
+            <option value="">Number of Guests</option>
+            <option value="1">1 Guest</option>
+            <option value="2">2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+            <option value="5">5 Guests</option>
+            <option value="6">6+ Guests</option>
+        </select>
+        
+        <textarea name="message" placeholder="Special requests or dietary restrictions"></textarea>
+        
+        <!-- Success message will appear here -->
+        <div id="form-status" style="display: none; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
+        
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </form>
+</div>
         </section>
     </main>
 
@@ -96,7 +205,7 @@
                  <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com" style="color: white; text-decoration: none;">Therongchef@gmail.com</a></p>
             </div>
             <div class="footer-section">
-                
+
                 <h3>Follow Us</h3>
     <div class="social-links">
         <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">

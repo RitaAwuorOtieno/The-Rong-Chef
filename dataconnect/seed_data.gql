@@ -1,0 +1,75 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "Seed data is for development and testing, so it's safe to allow all logged in users to create it.") {
+  user_insertMany(data: [
+    {
+      id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      displayName: "Alice",
+      email: "alice@example.com",
+      role: "customer",
+      createdAt: "2024-01-01T10:00:00Z"
+    },
+    {
+      id: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      displayName: "Bob",
+      email: "bob@example.com",
+      role: "customer",
+      createdAt: "2024-01-01T10:05:00Z"
+    }
+  ])
+  menuItem_insertMany(data: [
+    {
+      id: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      name: "Classic Burger",
+      description: "A delicious beef burger with lettuce, tomato, and onion.",
+      price: 12.99,
+      category: "Main Course",
+      createdAt: "2024-01-01T10:10:00Z",
+      isAvailable: true
+    },
+    {
+      id: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      name: "Caesar Salad",
+      description: "Fresh romaine lettuce, croutons, parmesan cheese, and Caesar dressing.",
+      price: 9.50,
+      category: "Appetizer",
+      createdAt: "2024-01-01T10:15:00Z",
+      isAvailable: true
+    }
+  ])
+  order_insertMany(data: [
+    {
+      id: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      orderDate: "2024-01-02",
+      totalAmount: 22.49,
+      status: "completed",
+      orderType: "delivery",
+      createdAt: "2024-01-02T12:00:00Z",
+      deliveryAddress: "123 Main St"
+    }
+  ])
+  orderItem_insertMany(data: [
+    {
+      orderId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      menuItemId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      quantity: 1,
+      priceAtOrder: 12.99
+    },
+    {
+      orderId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      menuItemId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      quantity: 1,
+      priceAtOrder: 9.50
+    }
+  ])
+  reservation_insertMany(data: [
+    {
+      id: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      reservationDate: "2024-01-05",
+      reservationTime: "2024-01-05T19:00:00Z",
+      numberOfGuests: 2,
+      status: "confirmed",
+      createdAt: "2024-01-03T10:00:00Z"
+    }
+  ])
+}

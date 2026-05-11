@@ -1,4 +1,8 @@
-/* Reset and Base Styles */
+/* ====================================
+   THE RONG CHEF - MAIN STYLESHEET
+   ==================================== */
+
+/* ---------- RESET & BASE ---------- */
 * {
     margin: 0;
     padding: 0;
@@ -12,7 +16,38 @@ body {
     background-color: #fff;
 }
 
-/* Navigation */
+/* ---------- TYPOGRAPHY ---------- */
+h1, h2, h3, h4 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #e67e22;
+    margin: 10px auto 0;
+}
+
+h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* ---------- HEADER & NAVIGATION ---------- */
 header {
     background: #1a1a1a;
     position: fixed;
@@ -66,16 +101,19 @@ nav ul li a.active {
     cursor: pointer;
 }
 
-/* Main Content - Add padding for fixed header */
+/* ---------- MAIN CONTENT ---------- */
 main {
     margin-top: 70px;
+    min-height: calc(100vh - 70px);
 }
 
-/* Hero Section */
+/* ---------- HERO SECTION ---------- */
 .hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200');
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://images.pexels.com/photos/4081597/chef-wok-cooking-flames.jpg');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     height: 90vh;
     display: flex;
     align-items: center;
@@ -84,19 +122,22 @@ main {
     color: white;
 }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
+.hero-content {
     animation: fadeInUp 1s ease;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
 .hero-content p {
     font-size: 1.3rem;
     margin-bottom: 2rem;
-    animation: fadeInUp 1s ease 0.2s backwards;
 }
 
-/* Buttons */
+/* ---------- BUTTONS ---------- */
 .btn {
     display: inline-block;
     padding: 12px 30px;
@@ -104,6 +145,8 @@ main {
     border-radius: 50px;
     transition: all 0.3s;
     font-weight: 600;
+    cursor: pointer;
+    border: none;
 }
 
 .btn-primary {
@@ -116,33 +159,30 @@ main {
     background: transparent;
     color: #e67e22;
     transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* Section Headers */
-section h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #1a1a1a;
-    position: relative;
+.btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
 }
 
-section h2::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: #e67e22;
-    margin: 10px auto 0;
+.btn-secondary:hover {
+    background: white;
+    color: #333;
+    transform: translateY(-3px);
 }
 
-/* Featured Dishes */
+/* ---------- FEATURED DISHES ---------- */
 .featured-dishes {
     padding: 4rem 5%;
     background: #f9f9f9;
 }
 
-.dishes-grid, .menu-grid, .gallery-grid {
+.dishes-grid,
+.menu-grid,
+.gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
@@ -150,32 +190,48 @@ section h2::after {
     margin: 0 auto;
 }
 
-.dish-card, .menu-card, .gallery-item {
+.dish-card,
+.menu-card,
+.gallery-item {
     background: white;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    transition: all 0.3s;
 }
 
-.dish-card:hover, .menu-card:hover, .gallery-item:hover {
+.dish-card:hover,
+.menu-card:hover,
+.gallery-item:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
-.dish-card img, .menu-card img, .gallery-item img {
+.dish-card img,
+.menu-card img,
+.gallery-item img {
     width: 100%;
     height: 250px;
     object-fit: cover;
+    transition: transform 0.3s;
 }
 
-.dish-card h3, .menu-card h3 {
+.dish-card:hover img,
+.menu-card:hover img {
+    transform: scale(1.05);
+}
+
+.dish-card h3,
+.menu-card h3 {
     padding: 1rem 1rem 0.5rem;
     color: #1a1a1a;
 }
 
-.dish-card p, .menu-card p {
+.dish-card p,
+.menu-card p {
     padding: 0 1rem;
     color: #666;
+    font-size: 0.9rem;
 }
 
 .price {
@@ -187,7 +243,7 @@ section h2::after {
     font-size: 1.2rem;
 }
 
-/* Testimonials */
+/* ---------- TESTIMONIALS ---------- */
 .testimonials {
     padding: 4rem 5%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -216,9 +272,16 @@ section h2::after {
     border-radius: 10px;
     text-align: center;
     backdrop-filter: blur(10px);
+    transition: transform 0.3s;
 }
 
-.testimonial i {
+.testimonial:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.15);
+}
+
+.testimonial i.fa-star,
+.testimonial .remark-rating {
     color: #ffd700;
     margin-bottom: 1rem;
 }
@@ -226,9 +289,15 @@ section h2::after {
 .testimonial p {
     margin: 1rem 0;
     font-style: italic;
+    font-size: 1rem;
 }
 
-/* Page Headers */
+.testimonial h4 {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+/* ---------- PAGE HEADERS ---------- */
 .page-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -241,7 +310,12 @@ section h2::after {
     margin-bottom: 1rem;
 }
 
-/* Menu Categories */
+.page-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* ---------- MENU CATEGORIES ---------- */
 .menu-categories {
     text-align: center;
     padding: 2rem;
@@ -265,19 +339,25 @@ section h2::after {
     color: white;
 }
 
-/* About Page */
+/* ---------- ABOUT PAGE ---------- */
 .about-content {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    padding: 4rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
+    align-items: start;
 }
 
-.about-text h2, .about-text h3 {
+.about-text h2,
+.about-text h3 {
     margin: 1.5rem 0 1rem;
     color: #1a1a1a;
+}
+
+.about-text h2:first-child {
+    margin-top: 0;
 }
 
 .about-text ul {
@@ -287,6 +367,7 @@ section h2::after {
 
 .about-text li {
     padding: 0.5rem 0;
+    font-size: 1rem;
 }
 
 .about-image img {
@@ -319,7 +400,7 @@ section h2::after {
     margin-bottom: 1rem;
 }
 
-/* Gallery Lightbox */
+/* ---------- GALLERY LIGHTBOX ---------- */
 .lightbox {
     display: none;
     position: fixed;
@@ -328,7 +409,7 @@ section h2::after {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0,0,0,0.95);
 }
 
 .lightbox-content {
@@ -340,6 +421,7 @@ section h2::after {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 5px;
 }
 
 .close {
@@ -348,17 +430,23 @@ section h2::after {
     right: 35px;
     color: white;
     font-size: 40px;
+    font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
-/* Contact Page */
+.close:hover {
+    color: #e67e22;
+}
+
+/* ---------- CONTACT PAGE ---------- */
 .contact-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    padding: 4rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .contact-info i {
@@ -369,6 +457,16 @@ section h2::after {
 
 .contact-info p {
     margin: 1rem 0;
+}
+
+.contact-info a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.contact-info a:hover {
+    color: #e67e22;
 }
 
 .contact-form form {
@@ -384,13 +482,23 @@ section h2::after {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #e67e22;
 }
 
 .contact-form textarea {
     min-height: 100px;
+    resize: vertical;
 }
 
-/* Footer */
+/* ---------- FOOTER ---------- */
 footer {
     background: #1a1a1a;
     color: white;
@@ -408,26 +516,56 @@ footer {
 
 .footer-section h3 {
     margin-bottom: 1rem;
+    color: #e67e22;
 }
 
-.social-links a {
+.footer-section p {
+    margin: 0.5rem 0;
+}
+
+.footer-section a {
     color: white;
-    margin-right: 15px;
-    font-size: 1.2rem;
+    text-decoration: none;
     transition: color 0.3s;
 }
 
-.social-links a:hover {
+.footer-section a:hover {
     color: #e67e22;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    background: #e67e22;
+    transform: translateY(-3px);
+}
+
+.social-links i {
+    font-size: 1.2rem;
 }
 
 .footer-bottom {
     text-align: center;
     padding: 1rem;
     border-top: 1px solid #333;
+    font-size: 0.9rem;
 }
 
-/* Animations */
+/* ---------- ANIMATIONS ---------- */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -439,7 +577,36 @@ footer {
     }
 }
 
-/* Responsive Design */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 992px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .about-content,
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-image {
+        order: -1;
+    }
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: block;
@@ -455,107 +622,57 @@ footer {
         flex-direction: column;
         padding: 1rem 0;
         text-align: center;
+        gap: 0;
     }
     
     nav ul.active {
         display: flex;
     }
     
+    nav ul li {
+        padding: 0.8rem 0;
+    }
+    
     .hero-content h1 {
         font-size: 2rem;
     }
     
-    .about-content,
-    .contact-container {
-        grid-template-columns: 1fr;
+    .hero-content p {
+        font-size: 1rem;
     }
     
     .page-header h1 {
         font-size: 2rem;
     }
     
-    section h2 {
-        font-size: 1.8rem;
-    }
-}
-
-/* New Menu Styles */
-.menu-category {
-    margin-bottom: 3rem;
-}
-
-.category-title {
-    font-size: 2rem;
-    color: #e67e22;
-    border-bottom: 2px solid #e67e22;
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-}
-
-.menu-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.menu-card {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.menu-card:hover {
-    transform: translateY(-5px);
-}
-
-.menu-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.menu-info {
-    padding: 1rem;
-}
-
-.menu-card h3 {
-    margin: 0 0 0.5rem 0;
-    color: #1a1a1a;
-}
-
-.menu-card p {
-    color: #666;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.menu-card .price {
-    display: inline-block;
-    background: #e67e22;
-    color: white;
-    padding: 0.3rem 1rem;
-    border-radius: 20px;
-    font-weight: bold;
-    margin-top: 0.5rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .menu-card {
-        flex-direction: row;
+    .category-btn {
+        margin: 5px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
     }
     
-    .menu-card img {
-        width: 120px;
-        height: 120px;
+    .testimonial-container {
+        grid-template-columns: 1fr;
     }
     
-    .menu-info {
-        flex: 1;
+    .footer-content {
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .dishes-grid,
+    .menu-grid,
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }

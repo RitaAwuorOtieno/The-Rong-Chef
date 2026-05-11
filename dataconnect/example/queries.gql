@@ -1,0 +1,51 @@
+query ListAllMenuItems @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  menuItems {
+    id
+    name
+    description
+    price
+    category
+    isAvailable
+    imageUrl
+  }
+}
+
+query GetUserOrders($userId: UUID!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  orders(where: {userId: {eq: $userId}}) {
+    id
+    orderDate
+    totalAmount
+    status
+    orderType
+    orderItems {
+      menuItem {
+        name
+        price
+      }
+      quantity
+      priceAtOrder
+    }
+  }
+}
+
+mutation CreateNewUser($displayName: String!, $email: String!, $role: String!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  user_insert(data: {
+    displayName: $displayName,
+    email: $email,
+    role: $role,
+    createdAt_expr: "request.time"
+  }) {
+    id
+  }
+}
+
+mutation UpdateMenuItemPrice($menuItemId: UUID!, $newPrice: Float!) @auth(expr: "auth.token.role == 'admin'", insecureReason: "Only administrators can update menu item prices.") {
+  menuItem_update(
+    id: $menuItemId,
+    data: {
+      price: $newPrice
+    }
+  ) {
+    id
+  }
+}

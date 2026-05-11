@@ -1,0 +1,47 @@
+type User @table {
+  displayName: String!
+  email: String!
+  role: String!
+  createdAt: Timestamp!
+  passwordHash: String
+  phoneNumber: String
+}
+
+type MenuItem @table {
+  name: String!
+  description: String!
+  price: Float!
+  category: String!
+  createdAt: Timestamp!
+  imageUrl: String
+  isAvailable: Boolean
+}
+
+type Order @table {
+  user: User!
+  orderDate: Date!
+  totalAmount: Float!
+  status: String!
+  orderType: String!
+  createdAt: Timestamp!
+  deliveryAddress: String
+  pickupTime: Timestamp
+  specialInstructions: String
+}
+
+type OrderItem @table {
+  order: Order!
+  menuItem: MenuItem!
+  quantity: Int!
+  priceAtOrder: Float!
+}
+
+type Reservation @table {
+  user: User!
+  reservationDate: Date!
+  reservationTime: Timestamp!
+  numberOfGuests: Int!
+  status: String!
+  createdAt: Timestamp!
+  specialRequests: String
+}
