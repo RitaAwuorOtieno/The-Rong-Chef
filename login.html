@@ -33,6 +33,14 @@
             margin-top: 20px;
             padding: 12px;
             font-size: 16px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background: #d35400;
         }
         .error-message {
             color: #dc3545;
@@ -58,6 +66,14 @@
             color: #e67e22;
             text-decoration: none;
         }
+        .info-box {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            font-size: 14px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -65,10 +81,14 @@
         <h2><i class="fas fa-utensils"></i> The Rong Chef</h2>
         <h3 style="text-align: center; margin-bottom: 1rem;">Admin Login</h3>
         
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i> Enter your admin credentials
+        </div>
+        
         <form id="login-form">
             <input type="email" id="email" placeholder="Email Address" required>
             <input type="password" id="password" placeholder="Password" required>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit">Login</button>
         </form>
         
         <div id="message"></div>
@@ -82,46 +102,90 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
         
-        // REPLACE WITH YOUR ACTUAL FIREBASE CONFIG
-         const firebaseConfig = {
-  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
-  authDomain: "the-rong-chef.firebaseapp.com",
-  projectId: "the-rong-chef",
-  storageBucket: "the-rong-chef.firebasestorage.app",
-  messagingSenderId: "9185728688",
-  appId: "1:9185728688:web:5aeeaca66312de1051c375"
-};
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+            authDomain: "the-rong-chef.firebaseapp.com",
+            projectId: "the-rong-chef",
+            storageBucket: "the-rong-chef.firebasestorage.app",
+            messagingSenderId: "9185728688",
+            appId: "1:9185728688:web:5aeeaca66312de1051c375"
+        };
         
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         
+        // Flag to prevent multiple login attempts
+        let isLoggingIn = false;
+        
+        // Single event listener for login form
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Prevent multiple submissions
+            if (isLoggingIn) {
+                console.log('Login already in progress...');
+                return;
+            }
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const messageDiv = document.getElementById('message');
+            const submitBtn = document.querySelector('#login-form button');
             
+            // Disable button and show loading
+            isLoggingIn = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
             messageDiv.innerHTML = '<div class="success-message">Logging in...</div>';
             
             try {
-                await signInWithEmailAndPassword(auth, email, password);
+                // Attempt to sign in
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log('Login successful:', userCredential.user.email);
+                
                 messageDiv.innerHTML = '<div class="success-message">Login successful! Redirecting to dashboard...</div>';
+                
+                // Redirect to admin dashboard
                 setTimeout(() => {
                     window.location.href = 'admin.html';
                 }, 1500);
+                
             } catch (error) {
+                console.error('Login error:', error.code);
+                
+                // Reset form state
+                isLoggingIn = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Login';
+                
+                // Show appropriate error message
                 let errorMessage = 'Login failed. ';
                 if (error.code === 'auth/invalid-credential') {
-                    errorMessage += 'Invalid email or password.';
+                    errorMessage = 'Invalid email or password. Please try again.';
                 } else if (error.code === 'auth/user-not-found') {
-                    errorMessage += 'User not found.';
+                    errorMessage = 'No account found with this email.';
                 } else if (error.code === 'auth/wrong-password') {
-                    errorMessage += 'Wrong password.';
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'Too many failed attempts. Please try again later.';
                 } else {
                     errorMessage += error.message;
                 }
+                
                 messageDiv.innerHTML = `<div class="error-message">${errorMessage}</div>`;
+            }
+        });
+        
+        // Check if user is already logged in - redirect to admin
+        import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('User already logged in:', user.email);
+                // Redirect to admin if already logged in
+                window.location.href = 'admin.html';
             }
         });
     </script>

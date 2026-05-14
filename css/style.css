@@ -109,8 +109,8 @@ main {
 
 /* ---------- HERO SECTION ---------- */
 .hero {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                url('https://images.pexels.com/photos/4081597/chef-wok-cooking-flames.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -121,7 +121,6 @@ main {
     text-align: center;
     color: white;
 }
-
 .hero-content {
     animation: fadeInUp 1s ease;
 }
@@ -241,6 +240,43 @@ main {
     color: #e67e22;
     font-weight: bold;
     font-size: 1.2rem;
+}
+
+/* ---------- FIXED IMAGE SIZING FOR ALL DISH CARDS ---------- */
+
+
+
+
+
+/* Gallery images */
+.gallery-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Modal image preview */
+.image-preview {
+    width: 100%;
+    height: 150px;
+    background: #f0f0f0;
+    margin-top: 5px;
+    border-radius: 5px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* For responsive design - smaller screens */
+@media (max-width: 768px) {
+    .dish-card img,
+    .menu-card img {
+        height: 200px;  /* Slightly smaller on mobile */
+    }
+    
+    .gallery-item img {
+        height: 250px;
+    }
 }
 
 /* ---------- TESTIMONIALS ---------- */

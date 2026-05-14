@@ -1,94 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rong Chef | Home</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-  import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-  
-   const firebaseConfig = {
-  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
-  authDomain: "the-rong-chef.firebaseapp.com",
-  projectId: "the-rong-chef",
-  storageBucket: "the-rong-chef.firebasestorage.app",
-  messagingSenderId: "9185728688",
-  appId: "1:9185728688:web:5aeeaca66312de1051c375"
-};
-  
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  
-  window.db = db;
-  window.auth = auth;
-  
-  // Check login status to show/hide admin link
-  onAuthStateChanged(auth, (user) => {
-    const adminLink = document.getElementById('admin-link');
-    if (adminLink) {
-      if (user) {
-        adminLink.style.display = 'inline-block';
-      } else {
-        adminLink.style.display = 'none';
-      }
-    }
-  });
-  
-  // Load testimonials from Firebase
-  async function loadFirebaseTestimonials() {
-    const container = document.getElementById('dynamic-testimonials');
-    if (!container) return;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>The Rong Chef | Home - Exquisite Culinary Experience</title>
+    <meta name="description" content="Experience the finest culinary creations by Chef Rong. Book your table today for an unforgettable dining experience.">
+    <meta name="keywords" content="chef, restaurant, fine dining, culinary, gourmet food">
+    <meta name="author" content="The Rong Chef">
     
-    try {
-      const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(3));
-      const querySnapshot = await getDocs(q);
-      
-      if (querySnapshot.empty) {
-        container.innerHTML = '<div class="testimonial">No reviews yet. Be the first to leave a remark!</div>';
-        return;
-      }
-      
-      container.innerHTML = '';
-      querySnapshot.forEach((doc) => {
-        const remark = doc.data();
-        container.innerHTML += `
-          <div class="testimonial">
-            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
-              ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
-            </div>
-            <p>"${remark.text}"</p>
-            <h4>- ${remark.author}</h4>
-            <small>${new Date(remark.date).toLocaleDateString()}</small>
-          </div>
-        `;
-      });
-    } catch (error) {
-      console.error('Error loading testimonials:', error);
-      container.innerHTML = '<div class="testimonial">Unable to load reviews. Please try again later.</div>';
-    }
-  }
-  
-  // Make function available globally
-  window.loadFirebaseTestimonials = loadFirebaseTestimonials;
-  
-  // Load when page ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFirebaseTestimonials);
-  } else {
-    loadFirebaseTestimonials();
-  }
-</script>
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍛</text></svg>">
+    
+    <style>
+        .loading-spinner {
+            text-align: center;
+            padding: 2rem;
+        }
+        .loading-spinner i {
+            font-size: 2rem;
+            color: #e67e22;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: #333;
+            transform: translateY(-3px);
+        }
+        
+        .cta-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.pexels.com/photos/2608517/assorted-food-on-table.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+                display: inline-block;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
     <header>
         <nav>
             <div class="logo">
@@ -98,134 +99,288 @@
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-           <ul id="nav-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html" style="color: #e67e22;">🔐 Admin Login</a></li>
-</ul>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" id="login-link" style="color: #e67e22;"><i class="fas fa-lock"></i> Admin</a></li>
+                <li><a href="admin.html" id="admin-link" style="display: none; color: #28a745;"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            </ul>
         </nav>
     </header>
 
+    <!-- ==================== MAIN CONTENT ==================== -->
     <main>
+
+        <!-- ==================== HERO SECTION ==================== -->
         <section class="hero">
             <div class="hero-content">
                 <h1>The Rong Chef</h1>
                 <p>Just Keep Cooking</p>
-                <a href="contact.html" class="btn btn-primary">Reserve the Chef</a>
+                <div>
+                    <a href="contact.html" class="btn btn-primary">Reserve the chef</a>
+                    <a href="menu.html" class="btn btn-secondary">View Menu</a>
+                </div>
             </div>
         </section>
 
-       <section class="featured-dishes">
-    <h2>Featured Signature Dishes</h2>
-    <div class="dishes-grid">
-        <!-- Dish 1 -->
-        <div class="dish-card">
-            <img src="Images/meal11.jpeg" alt="Chef's Signature Pasta">
-            <h3>Chef's Signature Pasta</h3>
-            <p>Handmade pasta with secret family sauce</p>
-            <span class="price"></span>
-        </div>
-        
-        <!-- Dish 2 -->
-        <div class="dish-card">
-            <img src="Images/meal10.jpeg" alt="Herb Crusted Lamb Rack">
-            <h3>Herb Crusted Lamb Rack</h3>
-            <p>With red wine reduction and seasonal vegetables</p>
-            <span class="price"></span>
-        </div>
-        
-        <!-- Dish 3 -->
-        <div class="dish-card">
-            <img src="Images/meal1.jpeg" alt="Seafood Paella">
-            <h3>Seafood Paella</h3>
-            <p>Fresh shrimp, mussels, calamari, and saffron rice</p>
-            <span class="price"></span>
-        </div>
-        
-        <!-- Add more dishes as needed -->
-         <!-- Dish 4  -->
-        <div class="dish-card">
-            <img src="Images/meal12.jpeg" alt="Dish Name">
-            <h3>Beef Shawarma</h3>
-            <p> </p>
-            <span class="price"></span>
-        </div>
-        
-    </div>
-</section>
+        <!-- ==================== FEATURED DISHES SECTION ==================== -->
+        <section class="featured-dishes">
+            <h2>Featured Signature Dishes</h2>
+            <div class="dishes-grid" id="featured-dishes">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading delicious dishes...</p>
+                </div>
+            </div>
+        </section>
 
-            
-            <section class="testimonials">
+        <!-- ==================== TESTIMONIALS SECTION ==================== -->
+        <section class="testimonials">
             <h2>What Our Guests Say</h2>
             <div class="testimonial-container" id="dynamic-testimonials">
-             <div>Loading reviews...</div>
-        </div>
-
-            <div class="testimonial-container">
-                <div class="testimonial">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <p>"Absolutely incredible food! The Rong Cheff's culinary skills are unmatched."</p>
-                    <h4>- Rita A.</h4>
-                </div>
-                <div class="testimonial">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <p>"Best dining experience I've had in years. Every dish is a masterpiece."</p>
-                    <h4>- Annastacia C.</h4>
-                </div>
-                <div class="testimonial">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <p>"The attention to detail and flavors are exceptional. Highly recommend!"</p>
-                    <h4>- Clinton L.</h4>
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner"></i>
+                    <p>Loading reviews...</p>
                 </div>
             </div>
         </section>
+
+        <!-- ==================== CTA SECTION ==================== -->
+        <section class="cta-section">
+            <h2 style="color: white; margin-bottom: 1rem;">Ready for an Unforgettable Experience?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.2rem;">Reserve the chef now and indulge in culinary excellence.</p>
+            <a href="contact.html" class="btn btn-primary" style="background: #e67e22; border-color: #e67e22;">Book Now</a>
+        </section>
+
     </main>
 
+    <!-- ==================== FOOTER ==================== -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>The Rong Chef</h3>
-                <p>Bringing extraordinary flavors to your table.</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact</h3>
-                <p>
-               <i class="fas fa-phone"></i> 
-                <a href="tel:+254741639510" style="color: inherit; text-decoration: none;">+254741639510</a>
+                <h3><i class="fas fa-utensils"></i> The Rong Chef</h3>
+                <p>Bringing extraordinary flavors to your table with passion and precision.</p>
+                <p style="margin-top: 1rem;">
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
                 </p>
-
-                 <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com" style="color: white; text-decoration: none;">Therongchef@gmail.com</a></p>
             </div>
-
-
+            
             <div class="footer-section">
-    <h3>Follow Us</h3>
-    <div class="social-links">
-        <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="www.tiktok.com/@therongchef" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href= "https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-threads"></i>
-        </a>
-        <a href="https://facebook.com/therongcheff" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
-    </div>
-</div>
-
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                <p><i class="fas fa-phone"></i> <a href="tel:+254741639510">+254 741 639510</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:therongchef@gmail.com">therongchef@gmail.com</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Threads"><i class="fab fa-threads"></i></a>
+                </div>
+                <p style="margin-top: 1rem;">#TheRongChef #CulinaryExcellence</p>
+            </div>
         </div>
+        
         <div class="footer-bottom">
-            <p>&copy; 2026 The Rong Chef. All rights reserved.</p>
+            <p>&copy; 2026 The Rong Chef. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e67e22;"></i> for food lovers</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <!-- ==================== BACK TO TOP BUTTON ==================== -->
+    <button id="backToTop" style="position: fixed; bottom: 20px; right: 20px; background: #e67e22; color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; display: none; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); transition: all 0.3s;">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script type="module">
+        // Import Firebase
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+            authDomain: "the-rong-chef.firebaseapp.com",
+            projectId: "the-rong-chef",
+            storageBucket: "the-rong-chef.firebasestorage.app",
+            messagingSenderId: "9185728688",
+            appId: "1:9185728688:web:5aeeaca66312de1051c375"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // Check admin login status to show/hide admin link (KEEPS THE LINK WORKING)
+        onAuthStateChanged(auth, (user) => {
+            const adminLink = document.getElementById('admin-link');
+            const loginLink = document.getElementById('login-link');
+            
+            console.log('Auth state changed - User logged in:', !!user);
+            
+            if (adminLink) {
+                if (user) {
+                    // User is logged in - show Dashboard, hide Login
+                    adminLink.style.display = 'inline-block';
+                    if (loginLink) loginLink.style.display = 'none';
+                } else {
+                    // User is not logged in - show Login, hide Dashboard
+                    adminLink.style.display = 'none';
+                    if (loginLink) loginLink.style.display = 'inline-block';
+                }
+            }
+        });
+        
+        // Load Featured Dishes from Firebase
+        async function loadFeaturedDishes() {
+            const container = document.getElementById('featured-dishes');
+            if (!container) return;
+            
+            try {
+                console.log('Loading featured dishes...');
+                const q = query(collection(db, 'featuredDishes'), orderBy('order', 'asc'));
+                const querySnapshot = await getDocs(q);
+                
+                console.log('Found dishes:', querySnapshot.size);
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-utensils" style="font-size: 3rem; color: #e67e22; margin-bottom: 1rem;"></i>
+                            <h3>No Featured Dishes Yet</h3>
+                            <p>Check back soon for our signature dishes!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const dish = doc.data();
+                    container.innerHTML += `
+                        <div class="dish-card">
+                            <img src="${dish.image}" alt="${dish.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
+                            <h3>${escapeHtml(dish.name)}</h3>
+                            <p>${escapeHtml(dish.description)}</p>
+                            <span class="price">${dish.price}</span>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading featured dishes:', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e67e22; margin-bottom: 1rem;"></i>
+                        <h3>Error Loading Dishes</h3>
+                        <p>Please refresh the page or try again later.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load Testimonials from Firebase
+        async function loadTestimonials() {
+            const container = document.getElementById('dynamic-testimonials');
+            if (!container) return;
+            
+            try {
+                console.log('Loading testimonials...');
+                const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(6));
+                const querySnapshot = await getDocs(q);
+                
+                console.log('Found remarks:', querySnapshot.size);
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = `
+                        <div class="testimonial">
+                            <p>No reviews yet. Be the first to leave a remark!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = '';
+                querySnapshot.forEach((doc) => {
+                    const remark = doc.data();
+                    container.innerHTML += `
+                        <div class="testimonial">
+                            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
+                                ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
+                            </div>
+                            <p>"${escapeHtml(remark.text)}"</p>
+                            <h4>- ${escapeHtml(remark.author)}</h4>
+                            <small style="opacity: 0.8;">${new Date(remark.date).toLocaleDateString()}</small>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                container.innerHTML = `
+                    <div class="testimonial">
+                        <p>Unable to load reviews at this time.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Mobile menu toggle
+        function initMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Back to top button
+        function initBackToTop() {
+            const backToTop = document.getElementById('backToTop');
+            if (backToTop) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTop.style.display = 'block';
+                    } else {
+                        backToTop.style.display = 'none';
+                    }
+                });
+                
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        }
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Page loaded - initializing...');
+            loadFeaturedDishes();
+            loadTestimonials();
+            initMobileMenu();
+            initBackToTop();
+        });
+    </script>
 </body>
 </html>

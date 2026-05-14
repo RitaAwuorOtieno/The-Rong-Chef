@@ -104,20 +104,13 @@ const galleryImages = [
     "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600"
 ];
 
-// ---------- LOAD FEATURED DISHES ----------
-function loadFeaturedDishes() {
-    const container = document.getElementById('featured-dishes');
-    if (!container) return;
-    
-    container.innerHTML = featuredDishes.map(dish => `
-        <div class="dish-card">
-            <img src="${dish.img}" alt="${dish.name}" loading="lazy">
-            <h3>${dish.name}</h3>
-            <p>${dish.description}</p>
-            <span class="price">${dish.price}</span>
-        </div>
-    `).join('');
-}
+// This function is now handled by Firebase
+// Remove the old loadFeaturedDishes function to avoid conflicts
+window.oldLoadFeaturedDishes = window.loadFeaturedDishes;
+window.loadFeaturedDishes = () => {
+    // Do nothing - Firebase handles it
+    console.log('Featured dishes managed by Firebase');
+};
 
 // ---------- LOAD MENU ----------
 function loadMenu(category = 'all') {
