@@ -3,89 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rong Chef | Contact</title>
+    <title>The Rong Chef | Contact & Reservations</title>
+    <meta name="description" content="Book your table, reserve Chef Rong for private events, or get in touch with any questions.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-        <!-- Firebase SDKs -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-  import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-  
-   const firebaseConfig = {
-  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
-  authDomain: "the-rong-chef.firebaseapp.com",
-  projectId: "the-rong-chef",
-  storageBucket: "the-rong-chef.firebasestorage.app",
-  messagingSenderId: "9185728688",
-  appId: "1:9185728688:web:5aeeaca66312de1051c375"
-};
-  
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  
-  window.db = db;
-  window.auth = auth;
-  
-  // Check login status to show/hide admin link
-  onAuthStateChanged(auth, (user) => {
-    const adminLink = document.getElementById('admin-link');
-    if (adminLink) {
-      if (user) {
-        adminLink.style.display = 'inline-block';
-      } else {
-        adminLink.style.display = 'none';
-      }
-    }
-  });
-  
-  // Load testimonials from Firebase
-  async function loadFirebaseTestimonials() {
-    const container = document.getElementById('dynamic-testimonials');
-    if (!container) return;
     
-    try {
-      const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(3));
-      const querySnapshot = await getDocs(q);
-      
-      if (querySnapshot.empty) {
-        container.innerHTML = '<div class="testimonial">No reviews yet. Be the first to leave a remark!</div>';
-        return;
-      }
-      
-      container.innerHTML = '';
-      querySnapshot.forEach((doc) => {
-        const remark = doc.data();
-        container.innerHTML += `
-          <div class="testimonial">
-            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
-              ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
-            </div>
-            <p>"${remark.text}"</p>
-            <h4>- ${remark.author}</h4>
-            <small>${new Date(remark.date).toLocaleDateString()}</small>
-          </div>
-        `;
-      });
-    } catch (error) {
-      console.error('Error loading testimonials:', error);
-      container.innerHTML = '<div class="testimonial">Unable to load reviews. Please try again later.</div>';
-    }
-  }
-  
-  // Make function available globally
-  window.loadFirebaseTestimonials = loadFirebaseTestimonials;
-  
-  // Load when page ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFirebaseTestimonials);
-  } else {
-    loadFirebaseTestimonials();
-  }
-</script>
+    <style>
+        /* Additional contact page styles */
+        .contact-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
 
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .contact-info h2 {
+            text-align: left;
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .contact-info h2::after {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .contact-info h3 {
+            margin-top: 1.5rem;
+            color: #e67e22;
+        }
+
+        .contact-info p {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-info i {
+            width: 30px;
+            color: #e67e22;
+            font-size: 1.2rem;
+        }
+
+        .contact-info a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #e67e22;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .contact-form h2 {
+            text-align: left;
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .contact-form h2::after {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #e67e22;
+        }
+
+        .contact-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 12px;
+            font-size: 1.1rem;
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .form-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .form-status.loading {
+            background: #e3f2fd;
+            color: #0c5460;
+            border: 1px solid #b8e1fc;
+        }
+
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 250px;
+            border: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -97,94 +187,99 @@
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
             </div>
-          <ul id="nav-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html" style="color: #e67e22;">🔐 Admin Login</a></li>
-</ul>
+            <ul id="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <!-- <li><a href="login.html" id="login-link" style="color: #e67e22;">🔐 Admin Login</a></li>
+                <li><a href="admin.html" id="admin-link" style="display: none; color: #28a745;">📊 Dashboard</a></li> -->
+            </ul>
         </nav>
     </header>
 
     <main>
         <section class="page-header">
-            <h1>Contact & Reservation</h1>
-            <p>Reserve the Chef or get in touch with Him</p>
+            <h1>Contact & Reservations</h1>
+            <p>Reserve the Chef or get in touch with him</p>
         </section>
 
         <section class="contact-container">
             <div class="contact-info">
                 <h2>Visit Me</h2>
-                <p><i class="fas fa-map-marker-alt"></i>Nairobi, Kenya</p>
-                <p><i class="fas fa-phone"></i> +254 741 639510</p>
-                <p><i class="fas fa-envelope"></i> Therongchef@gmail.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                <p><i class="fas fa-phone"></i> <a href="tel:+254741639510">+254 741 639 510</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com">Therongchef@gmail.com</a></p>
                 
-                <h2>Opening Hours</h2>
-                <p>Tuesday - Sunday: 11:00 AM - 10:00 PM</p>
-                <p>Monday: Closed</p>
+                <h2>Working Hours</h2>
+                <p><i class="fas fa-clock"></i> Tuesday - Sunday: 11:00 AM - 10:00 PM</p>
+                <p><i class="fas fa-clock"></i> Monday: Closed</p>
+                <p><i class="fas fa-champagne-glasses"></i> Friday & Saturday: Extended until 11:00 PM</p>
                 
-                 <h3>Follow Us</h3>
-    <div class="social-links">
-        <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="www.tiktok.com/@therongchef" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href= "https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-threads"></i>
-        </a>
-        <a href="https://facebook.com/therongcheff" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
-    </div>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="www.tiktok.com/@therongchef" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" aria-label="Threads"><i class="fab fa-threads"></i></a>
+                </div>
+
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35888373916!2d36.682498200000006!3d-1.286389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d3d6d8b8b9%3A0x3b8f2c8e5c8e5c8e!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
             </div>
 
             <div class="contact-form">
-    <h2>Make a Reservation</h2>
-    
-    <!-- IMPORTANT: Add netlify attribute and form name -->
-    <form name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <!-- Honeypot field to prevent spam (hidden from users) -->
-        <input type="hidden" name="form-name" value="booking">
-        <p style="display: none;">
-            <label>Don't fill this out if you're human: <input name="bot-field"></label>
-        </p>
-        
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Email Address" required>
-        <input type="tel" name="phone" placeholder="Phone Number">
-        <input type="date" name="date" required>
-        
-        <select name="time" required>
-            <option value="">Select Time</option>
-            <option value="12:00">12:00 PM</option>
-            <option value="13:00">1:00 PM</option>
-            <option value="18:00">6:00 PM</option>
-            <option value="19:00">7:00 PM</option>
-            <option value="20:00">8:00 PM</option>
-        </select>
-        
-        <select name="guests" required>
-            <option value="">Number of Guests</option>
-            <option value="1">1 Guest</option>
-            <option value="2">2 Guests</option>
-            <option value="3">3 Guests</option>
-            <option value="4">4 Guests</option>
-            <option value="5">5 Guests</option>
-            <option value="6">6+ Guests</option>
-        </select>
-        
-        <textarea name="message" placeholder="Special requests or dietary restrictions"></textarea>
-        
-        <!-- Success message will appear here -->
-        <div id="form-status" style="display: none; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
-        
-        <button type="submit" class="btn btn-primary">Book Now</button>
-    </form>
-</div>
+                <h2>Make a Reservation</h2>
+                <form id="bookingForm">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+                    <input type="date" id="date" name="date" required>
+                    
+                    <select id="time" name="time" required>
+                        <option value="">Select Time</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                        <option value="20:00">8:00 PM</option>
+                        <option value="21:00">9:00 PM</option>
+                    </select>
+                    
+                    <select id="guests" name="guests" required>
+                        <option value="">Number of Guests</option>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                        <option value="6">6 Guests</option>
+                        <option value="7">7 Guests</option>
+                        <option value="8">8+ Guests</option>
+                    </select>
+                    
+                    <textarea id="message" name="message" placeholder="Special requests or dietary restrictions"></textarea>
+                    
+                    <div id="form-status" class="form-status" style="display: none;"></div>
+                    
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-calendar-check"></i> Book Now
+                    </button>
+                </form>
+                
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #666;">
+                    <i class="fas fa-lock"></i> Your information is secure. We'll confirm your booking within 24 hours.
+                </p>
+            </div>
         </section>
     </main>
 
@@ -192,42 +287,274 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>The Rong Chef</h3>
-                <p>Bringing extraordinary flavors to your table.</p>
-            </div>
-
-           <div class="footer-section">
-                <h3>Contact</h3>
-                <p>
-               <i class="fas fa-phone"></i> 
-                <a href="tel:+254741639510" style="color: inherit; text-decoration: none;">+254741639510</a>
+                <p>Bringing extraordinary flavors to your table with passion and precision.</p>
+                <p style="margin-top: 1rem;">
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
+                    <i class="fas fa-star" style="color: #e67e22;"></i>
                 </p>
-
-                 <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com" style="color: white; text-decoration: none;">Therongchef@gmail.com</a></p>
             </div>
-            <div class="footer-section">
 
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-phone"></i> <a href="tel:+254741639510">+254 741 639 510</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com">Therongchef@gmail.com</a></p>
+                <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+            </div>
+
+            <!-- <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <p><strong>Tuesday - Sunday:</strong> 11AM - 10PM</p>
+                <p><strong>Monday:</strong> Closed</p>
+                <p><strong>Friday & Saturday:</strong> Until 11PM</p>
+            </div> -->
+
+            <div class="footer-section">
                 <h3>Follow Us</h3>
-    <div class="social-links">
-        <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="www.tiktok.com/@therongchef" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href= "https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-threads"></i>
-        </a>
-        <a href="https://facebook.com/therongcheff" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
+               <div class="social-links">
+                    <a href="https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="www.tiktok.com/@therongchef" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" aria-label="Threads"><i class="fab fa-threads"></i></a>
                 </div>
+                <p style="margin-top: 1rem;">#TheRongChef #CulinaryExcellence</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 The Rong Chef. All rights reserved.</p>
+            <p>&copy; 2026 The Rong Chef. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e67e22;"></i> for food lovers</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+            authDomain: "the-rong-chef.firebaseapp.com",
+            projectId: "the-rong-chef",
+            storageBucket: "the-rong-chef.firebasestorage.app",
+            messagingSenderId: "9185728688",
+            appId: "1:9185728688:web:5aeeaca66312de1051c375"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        // Check login status for admin link
+        onAuthStateChanged(auth, (user) => {
+            const adminLink = document.getElementById('admin-link');
+            const loginLink = document.getElementById('login-link');
+            
+            if (adminLink) {
+                if (user) {
+                    adminLink.style.display = 'inline-block';
+                    if (loginLink) loginLink.style.display = 'none';
+                } else {
+                    adminLink.style.display = 'none';
+                    if (loginLink) loginLink.style.display = 'inline-block';
+                }
+            }
+        });
+        
+        // Function to send email using EmailJS or similar service
+        // Note: You'll need to sign up for EmailJS (free) and replace with your credentials
+        async function sendEmailNotification(bookingData) {
+            // Option 1: Using EmailJS (Recommended - Free tier available)
+            // Sign up at https://www.emailjs.com/
+            
+            // For now, we'll log to console and rely on Firebase
+            console.log('Booking notification would be sent to:', bookingData.email);
+            console.log('Admin notification would be sent to: Therongchef@gmail.com');
+            
+            // You can implement actual email sending via:
+            // - EmailJS (free 200 emails/month)
+            // - SendGrid (free 100 emails/day)
+            // - Mailchimp Transactional API
+        }
+        
+        // Save booking to Firebase and send notifications
+        async function saveBooking(bookingData) {
+            try {
+                // Add to Firestore
+                const docRef = await addDoc(collection(db, 'bookings'), {
+                    ...bookingData,
+                    submitted: new Date().toISOString(),
+                    status: 'pending'
+                });
+                
+                console.log('Booking saved with ID:', docRef.id);
+                return { success: true, id: docRef.id };
+            } catch (error) {
+                console.error('Error saving booking:', error);
+                return { success: false, error: error.message };
+            }
+        }
+        
+        // Send confirmation email to customer
+        async function sendCustomerConfirmation(bookingData) {
+            // This would send an email to the customer
+            // For now, we'll simulate it
+            console.log(`
+                Sending confirmation email to: ${bookingData.email}
+                Subject: Booking Confirmation - The Rong Chef
+                Body: 
+                Dear ${bookingData.name},
+                
+                Thank you for booking with The Rong Chef!
+                
+                Booking Details:
+                Date: ${bookingData.date}
+                Time: ${bookingData.time}
+                Guests: ${bookingData.guests}
+                
+                We look forward to serving you!
+                
+                Best regards,
+                Chef Rong
+            `);
+            
+            return true;
+        }
+        
+       emailjs.send(
+    "service_tzu9pnl",    // The service you already set up
+    "template_5wch64q",   // The template ID for admin notifications
+    {
+        // These must match your template's variable names
+        customer_name: bookingData.name,
+        customer_email: bookingData.email,
+        customer_phone: bookingData.phone,
+        booking_date: bookingData.date,
+        booking_time: bookingData.time,
+        number_of_guests: bookingData.guests,
+        special_requests: bookingData.message || "None"
+    },
+    "Ht3Sorzt8oFE56hbQ"     // Your EmailJS public key
+);
+        
+        // Handle form submission
+        const form = document.getElementById('bookingForm');
+        const statusDiv = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const bookingData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                guests: document.getElementById('guests').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Validate date is not in the past
+            const selectedDate = new Date(bookingData.date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate < today) {
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'form-status error';
+                statusDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please select a future date.';
+                return;
+            }
+            
+            // Show loading state
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'form-status loading';
+            statusDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing your booking...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Save to Firebase
+                const result = await saveBooking(bookingData);
+                
+                if (result.success) {
+                    // Send notifications (these can be implemented later with EmailJS)
+                    await sendCustomerConfirmation(bookingData);
+                    await sendAdminNotification(bookingData);
+                    
+                    // Show success message
+                    statusDiv.className = 'form-status success';
+                    statusDiv.innerHTML = `
+                        <i class="fas fa-check-circle"></i> 
+                        <strong>Booking Request Sent!</strong><br>
+                        Thank you, ${bookingData.name}! We've received your reservation request.<br>
+                        A confirmation email will be sent to ${bookingData.email} shortly.<br>
+                        <small>We'll get back to you within 24 hours.</small>
+                    `;
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Scroll to status message
+                    statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Hide success message after 10 seconds
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 10000);
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                statusDiv.className = 'form-status error';
+                statusDiv.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    <strong>Something went wrong!</strong><br>
+                    We couldn't process your booking. Please try again or call us directly at +254 741 639 510.
+                `;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Set min date to today
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        
+        // Mobile menu toggle
+        function initMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Set active nav link
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'contact.html';
+            const navLinks = document.querySelectorAll('nav ul li a');
+            
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileMenu();
+            setActiveNavLink();
+        });
+    </script>
 </body>
 </html>

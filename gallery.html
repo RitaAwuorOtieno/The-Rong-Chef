@@ -3,88 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rong Chef | Gallery</title>
+    <title>The Rong Chef | Gallery - Culinary Creations</title>
+    <meta name="description" content="Explore our gallery of culinary masterpieces. Beautifully plated dishes, restaurant ambiance, and chef's special creations.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-        <!-- Firebase SDKs -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-  import { getFirestore, collection, getDocs, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-  
-   const firebaseConfig = {
-  apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
-  authDomain: "the-rong-chef.firebaseapp.com",
-  projectId: "the-rong-chef",
-  storageBucket: "the-rong-chef.firebasestorage.app",
-  messagingSenderId: "9185728688",
-  appId: "1:9185728688:web:5aeeaca66312de1051c375"
-};
-  
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  
-  window.db = db;
-  window.auth = auth;
-  
-  // Check login status to show/hide admin link
-  onAuthStateChanged(auth, (user) => {
-    const adminLink = document.getElementById('admin-link');
-    if (adminLink) {
-      if (user) {
-        adminLink.style.display = 'inline-block';
-      } else {
-        adminLink.style.display = 'none';
-      }
-    }
-  });
-  
-  // Load testimonials from Firebase
-  async function loadFirebaseTestimonials() {
-    const container = document.getElementById('dynamic-testimonials');
-    if (!container) return;
     
-    try {
-      const q = query(collection(db, 'remarks'), orderBy('date', 'desc'), limit(3));
-      const querySnapshot = await getDocs(q);
-      
-      if (querySnapshot.empty) {
-        container.innerHTML = '<div class="testimonial">No reviews yet. Be the first to leave a remark!</div>';
-        return;
-      }
-      
-      container.innerHTML = '';
-      querySnapshot.forEach((doc) => {
-        const remark = doc.data();
-        container.innerHTML += `
-          <div class="testimonial">
-            <div class="remark-rating" style="color: #ffd700; margin-bottom: 10px;">
-              ${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}
-            </div>
-            <p>"${remark.text}"</p>
-            <h4>- ${remark.author}</h4>
-            <small>${new Date(remark.date).toLocaleDateString()}</small>
-          </div>
-        `;
-      });
-    } catch (error) {
-      console.error('Error loading testimonials:', error);
-      container.innerHTML = '<div class="testimonial">Unable to load reviews. Please try again later.</div>';
-    }
-  }
-  
-  // Make function available globally
-  window.loadFirebaseTestimonials = loadFirebaseTestimonials;
-  
-  // Load when page ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFirebaseTestimonials);
-  } else {
-    loadFirebaseTestimonials();
-  }
-</script>
+    <style>
+        /* Gallery specific styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            aspect-ratio: 1 / 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .gallery-overlay p {
+            margin: 0;
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        /* Admin edit button */
+        .admin-gallery-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            z-index: 999;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .admin-gallery-btn:hover {
+            background: #d35400;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #e67e22;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 4rem;
+            color: #666;
+        }
+
+        .empty-gallery i {
+            font-size: 4rem;
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+            
+            .lightbox-nav {
+                font-size: 1.5rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -97,13 +205,14 @@
                 <i class="fas fa-bars"></i>
             </div>
             <ul id="nav-menu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html" style="color: #e67e22;">🔐 Admin Login</a></li>
-</ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <!-- <li><a href="login.html" id="login-link" style="color: #e67e22;">🔐 Admin Login</a></li>
+                <li><a href="admin.html" id="admin-link" style="display: none; color: #28a745;">📊 Dashboard</a></li> -->
+            </ul>
         </nav>
     </header>
 
@@ -114,15 +223,26 @@
         </section>
 
         <section class="gallery-grid" id="gallery-container">
-            <!-- JS will load gallery items -->
+            <div class="empty-gallery">
+                <i class="fas fa-camera"></i>
+                <p>Loading gallery...</p>
+            </div>
         </section>
     </main>
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="lightbox">
         <span class="close">&times;</span>
+        <button class="lightbox-nav prev" id="prevBtn">❮</button>
+        <button class="lightbox-nav next" id="nextBtn">❯</button>
         <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
     </div>
+
+    <!-- Admin Edit Button -->
+    <button id="adminGalleryBtn" class="admin-gallery-btn">
+        <i class="fas fa-edit"></i> Manage Gallery
+    </button>
 
     <footer>
         <div class="footer-content">
@@ -134,36 +254,268 @@
             <div class="footer-section">
                 <h3>Contact</h3>
                 <p>
-               <i class="fas fa-phone"></i> 
-                <a href="tel:+254741639510" style="color: inherit; text-decoration: none;">+254741639510</a>
+                    <i class="fas fa-phone"></i> 
+                    <a href="tel:+254741639510" style="color: inherit; text-decoration: none;">+254 741 639 510</a>
                 </p>
-
-                 <p><i class="fas fa-envelope"></i> <a href="mailto:Therongchef@gmail.com" style="color: white; text-decoration: none;">Therongchef@gmail.com</a></p>
+                <p>
+                    <i class="fas fa-envelope"></i> 
+                    <a href="mailto:Therongchef@gmail.com" style="color: white; text-decoration: none;">Therongchef@gmail.com</a>
+                </p>
             </div>
-            <div class="footer-section">
 
+            <div class="footer-section">
                 <h3>Follow Us</h3>
-    <div class="social-links">
-        <a href= "https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr"target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <a href="www.tiktok.com/@therongchef" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href= "https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-threads"></i>
-        </a>
-        <a href="https://facebook.com/therongcheff" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-facebook"></i>
-        </a>
+              <div class="social-links">
+                    <a href="https://www.instagram.com/therongchef?igsh=MWoxYWhrdW5scnNrNA%3D%3D&utm_source=qr" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="www.tiktok.com/@therongchef" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.threads.com/@therongchef?igshid=NTc4MTIwNjQ2YQ==" aria-label="Threads"><i class="fab fa-threads"></i></a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 The Rong Chef. All rights reserved.</p>
+            <p>&copy; 2026 The Rong Chef. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #e67e22;"></i> for food lovers</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getFirestore, collection, getDocs, query, orderBy, addDoc, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
+            authDomain: "the-rong-chef.firebaseapp.com",
+            projectId: "the-rong-chef",
+            storageBucket: "the-rong-chef.firebasestorage.app",
+            messagingSenderId: "9185728688",
+            appId: "1:9185728688:web:5aeeaca66312de1051c375"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        let currentUser = null;
+        let galleryItems = [];
+        let currentLightboxIndex = 0;
+        
+        // Check login status
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            const adminBtn = document.getElementById('adminGalleryBtn');
+            const adminLink = document.getElementById('admin-link');
+            const loginLink = document.getElementById('login-link');
+            
+            if (adminBtn) {
+                adminBtn.style.display = user ? 'block' : 'none';
+            }
+            
+            if (adminLink) {
+                if (user) {
+                    adminLink.style.display = 'inline-block';
+                    if (loginLink) loginLink.style.display = 'none';
+                } else {
+                    adminLink.style.display = 'none';
+                    if (loginLink) loginLink.style.display = 'inline-block';
+                }
+            }
+        });
+        
+        // Load gallery from Firebase
+        async function loadGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '<div class="empty-gallery"><i class="fas fa-spinner fa-spin"></i><p>Loading gallery...</p></div>';
+            
+            try {
+                const q = query(collection(db, 'gallery'), orderBy('order', 'asc'));
+                const querySnapshot = await getDocs(q);
+                
+                galleryItems = [];
+                querySnapshot.forEach((doc) => {
+                    galleryItems.push({ id: doc.id, ...doc.data() });
+                });
+                
+                if (galleryItems.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-gallery">
+                            <i class="fas fa-camera"></i>
+                            <h3>No Images Yet</h3>
+                            <p>Check back soon for our beautiful culinary creations!</p>
+                            ${currentUser ? '<p style="margin-top: 1rem;"><button onclick="openAddImageModal()" style="background: #e67e22; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">➕ Add Your First Image</button></p>' : ''}
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = galleryItems.map((item, index) => `
+                    <div class="gallery-item" data-index="${index}">
+                        <img src="${item.imageUrl}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+                        <div class="gallery-overlay">
+                            <h4>${escapeHtml(item.title)}</h4>
+                            <p>${escapeHtml(item.category || 'Culinary Creation')}</p>
+                        </div>
+                        ${currentUser ? `
+                            <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 10;">
+                                <button class="edit-gallery-btn" data-id="${item.id}" style="background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">✏️</button>
+                                <button class="delete-gallery-btn" data-id="${item.id}" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">🗑️</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+                
+                // Add event listeners to gallery items
+                document.querySelectorAll('.gallery-item').forEach((item, idx) => {
+                    item.addEventListener('click', (e) => {
+                        if (!e.target.classList.contains('edit-gallery-btn') && !e.target.classList.contains('delete-gallery-btn')) {
+                            openLightbox(idx);
+                        }
+                    });
+                });
+                
+                // Add edit/delete listeners for admin
+                if (currentUser) {
+                    document.querySelectorAll('.edit-gallery-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const id = btn.getAttribute('data-id');
+                            editGalleryImage(id);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.delete-gallery-btn').forEach(btn => {
+                        btn.addEventListener('click', async (e) => {
+                            e.stopPropagation();
+                            const id = btn.getAttribute('data-id');
+                            if (confirm('Are you sure you want to delete this image?')) {
+                                await deleteDoc(doc(db, 'gallery', id));
+                                loadGallery();
+                            }
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                container.innerHTML = '<div class="empty-gallery"><i class="fas fa-exclamation-triangle"></i><p>Error loading gallery. Please refresh.</p></div>';
+            }
+        }
+        
+        // Lightbox functions
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const item = galleryItems[index];
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            lightboxImg.src = item.imageUrl;
+            caption.innerHTML = `<strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.description || '')}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function nextImage() {
+            if (currentLightboxIndex < galleryItems.length - 1) {
+                openLightbox(currentLightboxIndex + 1);
+            }
+        }
+        
+        function prevImage() {
+            if (currentLightboxIndex > 0) {
+                openLightbox(currentLightboxIndex - 1);
+            }
+        }
+        
+        // Admin functions for gallery management
+        window.openAddImageModal = () => {
+            const title = prompt('Enter image title:', 'Delicious Creation');
+            if (!title) return;
+            
+            const description = prompt('Enter description (optional):', '');
+            const category = prompt('Enter category (Food/Ambiance/Event):', 'Food');
+            const imageUrl = prompt('Enter image URL:', 'https://images.unsplash.com/...');
+            if (!imageUrl) return;
+            
+            addDoc(collection(db, 'gallery'), {
+                title: title,
+                description: description || '',
+                category: category || 'Food',
+                imageUrl: imageUrl,
+                order: Date.now(),
+                createdAt: new Date().toISOString()
+            }).then(() => {
+                alert('Image added successfully!');
+                loadGallery();
+            }).catch(err => alert('Error: ' + err.message));
+        };
+        
+        window.editGalleryImage = async (id) => {
+            const newTitle = prompt('Enter new title:');
+            if (!newTitle) return;
+            
+            const newDescription = prompt('Enter new description:');
+            const newCategory = prompt('Enter new category (Food/Ambiance/Event):');
+            
+            await updateDoc(doc(db, 'gallery', id), {
+                title: newTitle,
+                description: newDescription || '',
+                category: newCategory || 'Food'
+            });
+            loadGallery();
+        };
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Mobile menu toggle
+        function initMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (hamburger && navMenu) {
+                hamburger.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('close').addEventListener('click', closeLightbox);
+        document.getElementById('prevBtn').addEventListener('click', prevImage);
+        document.getElementById('nextBtn').addEventListener('click', nextImage);
+        
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('lightbox')) {
+                closeLightbox();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            }
+        });
+        
+        document.getElementById('adminGalleryBtn').addEventListener('click', openAddImageModal);
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGallery();
+            initMobileMenu();
+        });
+    </script>
 </body>
 </html>

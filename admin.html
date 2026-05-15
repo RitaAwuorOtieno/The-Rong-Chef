@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+        }
         .admin-header {
             background: #1a1a1a;
             color: white;
@@ -18,85 +27,9 @@
             gap: 1rem;
         }
         .admin-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 2rem auto;
             padding: 0 2rem;
-        }
-        .remarks-list, .bookings-list, .dishes-list {
-            margin-top: 2rem;
-        }
-        .remark-card, .booking-card, .dish-card {
-            background: white;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            flex-wrap: wrap;
-        }
-        .remark-content, .booking-content, .dish-content {
-            flex: 1;
-        }
-        .remark-author, .dish-name {
-            font-weight: bold;
-            color: #e67e22;
-        }
-        .remark-date, .dish-date {
-            color: #999;
-            font-size: 0.8rem;
-        }
-        .remark-text, .dish-description {
-            margin: 0.5rem 0;
-        }
-        .remark-rating {
-            color: #ffd700;
-        }
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .edit-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 0.5rem;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-content input, .modal-content textarea, .modal-content select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
         .tab-buttons {
             display: flex;
@@ -121,22 +54,111 @@
         .tab-content.active {
             display: block;
         }
-        .dish-image-preview {
+        
+        /* Menu Items Styles */
+        .menu-category-section {
+            margin-bottom: 3rem;
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .menu-category-title {
+            font-size: 1.8rem;
+            color: #e67e22;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .menu-items-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        .menu-item-card {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            border: 1px solid #eee;
+        }
+        .menu-item-card img {
             width: 80px;
             height: 80px;
             object-fit: cover;
             border-radius: 8px;
-            margin-right: 1rem;
         }
-        .dish-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .menu-item-info {
+            flex: 1;
         }
-        .price {
+        .menu-item-name {
+            font-weight: bold;
+            color: #333;
+        }
+        .menu-item-price {
             color: #e67e22;
             font-weight: bold;
+        }
+        .menu-item-desc {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        .menu-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .edit-item-btn, .delete-item-btn {
+            padding: 0.25rem 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-item-btn {
+            background: #28a745;
+            color: white;
+        }
+        .delete-item-btn {
+            background: #dc3545;
+            color: white;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-content input, 
+        .modal-content textarea, 
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         .image-preview {
             width: 100%;
@@ -146,6 +168,30 @@
             border-radius: 5px;
             background-size: cover;
             background-position: center;
+        }
+        .btn-primary {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-secondary {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-item-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
         }
         .stats-grid {
             display: grid;
@@ -172,41 +218,22 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        .btn-primary {
-            background: #e67e22;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
         .loading {
             text-align: center;
             padding: 2rem;
-            color: #666;
         }
-        .quick-action-btn {
-            display: inline-block;
-            background: #e67e22;
-            color: white;
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-        }
-        .quick-action-btn:hover {
-            background: #d35400;
-        }
+        
         @media (max-width: 768px) {
             .admin-header {
                 flex-direction: column;
                 text-align: center;
             }
-            .dish-info {
+            .menu-item-card {
                 flex-direction: column;
                 text-align: center;
+            }
+            .menu-item-actions {
+                justify-content: center;
             }
         }
     </style>
@@ -222,10 +249,12 @@
     <div class="admin-container">
         <div class="tab-buttons">
             <button class="tab-btn" data-tab="dashboard">Dashboard</button>
+            <button class="tab-btn" data-tab="menu">Menu Items</button>
             <button class="tab-btn" data-tab="dishes">Featured Dishes</button>
-            <button class="tab-btn" data-tab="remarks">Manage Remarks</button>
-            <button class="tab-btn" data-tab="bookings">View Bookings</button>
-            <button class="tab-btn" data-tab="add-remark">Add Remark</button>
+            <button class="tab-btn" data-tab="remarks">Remarks</button>
+            <button class="tab-btn" data-tab="bookings">Bookings</button>
+            <button class="tab-btn" data-tab="gallery">Gallery</button>
+            <button class="tab-btn" data-tab="contact">Contact Page</button>
         </div>
 
         <!-- Dashboard Tab -->
@@ -233,67 +262,141 @@
             <h3>Dashboard Overview</h3>
             <div class="stats-grid">
                 <div class="stat-card">
+                    <div class="stat-number" id="totalMenuItems">0</div>
+                    <div>Menu Items</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number" id="totalDishes">0</div>
                     <div>Featured Dishes</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="totalRemarks">0</div>
-                    <div>Total Remarks</div>
+                    <div>Remarks</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="totalBookings">0</div>
-                    <div>Total Bookings</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="avgRating">0.0</div>
-                    <div>Average Rating</div>
+                    <div>Bookings</div>
                 </div>
             </div>
-            <div style="background: #f9f9f9; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                <h4>Quick Actions</h4>
-                <div>
-                    <button class="quick-action-btn" data-tab="dishes">👨‍🍳 Manage Featured Dishes</button>
-                    <button class="quick-action-btn" data-tab="remarks">⭐ Manage Customer Remarks</button>
-                    <button class="quick-action-btn" data-tab="bookings">📅 View Bookings</button>
+        </div>
+
+        <!-- Menu Items Tab -->
+        <div id="menu-tab" class="tab-content">
+            <h3>Manage Full Menu</h3>
+            
+            <!-- Appetizers Section -->
+            <div class="menu-category-section" data-category="appetizers">
+                <div class="menu-category-title">
+                    <span>🍽️ Appetizers</span>
+                    <button class="add-item-btn" onclick="openAddItemModal('appetizers')">+ Add Appetizer</button>
+                </div>
+                <div id="appetizers-list" class="menu-items-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Main Courses Section -->
+            <div class="menu-category-section" data-category="mains">
+                <div class="menu-category-title">
+                    <span>🍖 Main Courses</span>
+                    <button class="add-item-btn" onclick="openAddItemModal('mains')">+ Add Main Course</button>
+                </div>
+                <div id="mains-list" class="menu-items-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Desserts Section -->
+            <div class="menu-category-section" data-category="desserts">
+                <div class="menu-category-title">
+                    <span>🍰 Desserts</span>
+                    <button class="add-item-btn" onclick="openAddItemModal('desserts')">+ Add Dessert</button>
+                </div>
+                <div id="desserts-list" class="menu-items-list">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Beverages Section -->
+            <div class="menu-category-section" data-category="beverages">
+                <div class="menu-category-title">
+                    <span>🍷 Beverages</span>
+                    <button class="add-item-btn" onclick="openAddItemModal('beverages')">+ Add Beverage</button>
+                </div>
+                <div id="beverages-list" class="menu-items-list">
+                    <div class="loading">Loading...</div>
                 </div>
             </div>
         </div>
 
         <!-- Featured Dishes Tab -->
         <div id="dishes-tab" class="tab-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
                 <h3>Featured Dishes</h3>
-                <button id="addDishBtn" class="btn-primary">
-                    <i class="fas fa-plus"></i> Add New Dish
-                </button>
+                <button id="addDishBtn" class="btn-primary">+ Add Featured Dish</button>
             </div>
-            <div id="dishes-list" class="dishes-list">
-                <div class="loading">Loading dishes...</div>
+            <div id="dishes-list" class="menu-items-list">
+                <div class="loading">Loading...</div>
             </div>
         </div>
 
         <!-- Remarks Tab -->
         <div id="remarks-tab" class="tab-content">
-            <h3>Customer Remarks & Reviews</h3>
-            <div id="remarks-list" class="remarks-list">
-                <div class="loading">Loading remarks...</div>
+            <h3>Customer Remarks</h3>
+            <div id="remarks-list" class="menu-items-list">
+                <div class="loading">Loading...</div>
             </div>
+            <button id="addRemarkBtn" class="btn-primary" style="margin-top: 1rem;">+ Add Remark</button>
         </div>
 
         <!-- Bookings Tab -->
         <div id="bookings-tab" class="tab-content">
             <h3>Booking Requests</h3>
-            <div id="bookings-list" class="bookings-list">
-                <div class="loading">Loading bookings...</div>
+            <div id="bookings-list" class="menu-items-list">
+                <div class="loading">Loading...</div>
             </div>
         </div>
+    </div>
 
-        <!-- Add Remark Tab -->
-        <div id="add-remark-tab" class="tab-content">
-            <h3>Add New Remark/Testimonial</h3>
-            <form id="add-remark-form">
-                <input type="text" id="author" placeholder="Customer Name" required>
-                <select id="rating" required>
+    <!-- Add/Edit Menu Item Modal -->
+    <div id="menuItemModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Add Menu Item</h3>
+            <form id="menuItemForm">
+                <input type="hidden" id="itemId">
+                <input type="hidden" id="itemCategory">
+                <div>
+                    <label>Item Name *</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div>
+                    <label>Description *</label>
+                    <textarea id="itemDescription" rows="3" required></textarea>
+                </div>
+                <div>
+                    <label>Price *</label>
+                    <input type="text" id="itemPrice" required placeholder="$XX or Market Price">
+                </div>
+                <div>
+                    <label>Image URL *</label>
+                    <input type="url" id="itemImage" required placeholder="https://...">
+                    <div id="itemImagePreview" class="image-preview"></div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="submit" class="btn-primary">Save Item</button>
+                    <button type="button" onclick="closeMenuItemModal()" class="btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Remark Modal -->
+    <div id="remarkModal" class="modal">
+        <div class="modal-content">
+            <h3>Add Customer Remark</h3>
+            <form id="remarkForm">
+                <input type="text" id="remarkAuthor" placeholder="Customer Name" required>
+                <select id="remarkRating" required>
                     <option value="">Select Rating</option>
                     <option value="5">★★★★★ (5)</option>
                     <option value="4">★★★★☆ (4)</option>
@@ -301,72 +404,254 @@
                     <option value="2">★★☆☆☆ (2)</option>
                     <option value="1">★☆☆☆☆ (1)</option>
                 </select>
-                <textarea id="remark-text" rows="4" placeholder="Customer remark..." required></textarea>
+                <textarea id="remarkText" rows="4" placeholder="Customer remark..." required></textarea>
                 <button type="submit" class="btn-primary">Add Remark</button>
+                <button type="button" onclick="closeRemarkModal()" class="btn-secondary">Cancel</button>
             </form>
         </div>
     </div>
 
-    <!-- Edit Remark Modal -->
-    <div id="edit-modal" class="modal">
-        <div class="modal-content">
-            <h3>Edit Remark</h3>
-            <input type="text" id="edit-author" placeholder="Customer Name">
-            <select id="edit-rating">
-                <option value="5">★★★★★ (5)</option>
-                <option value="4">★★★★☆ (4)</option>
-                <option value="3">★★★☆☆ (3)</option>
-                <option value="2">★★☆☆☆ (2)</option>
-                <option value="1">★☆☆☆☆ (1)</option>
-            </select>
-            <textarea id="edit-text" rows="4" placeholder="Remark text"></textarea>
-            <button id="saveEditBtn" class="btn-primary">Save Changes</button>
-            <button id="closeModalBtn" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">Cancel</button>
+    <!-- Add this tab button in the tab-buttons section -->
+<button class="tab-btn" data-tab="about">About Page</button>
+
+<!-- Add this new tab content -->
+<div id="about-tab" class="tab-content">
+    <h3>Edit About Page Content</h3>
+    
+    <!-- Hero Section Editor -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>📖 Hero Section</span>
+        </div>
+        <div style="padding: 1rem;">
+            <label>Page Title</label>
+            <input type="text" id="aboutHeroTitle" class="form-input" placeholder="About The Rong Chef">
+            <label>Subtitle</label>
+            <input type="text" id="aboutHeroSubtitle" class="form-input" placeholder="The story behind the flavors">
+            <button class="save-btn" onclick="saveAboutHero()">Save Hero Section</button>
         </div>
     </div>
 
-    <!-- Add/Edit Dish Modal -->
-    <div id="dish-modal" class="modal">
-        <div class="modal-content">
-            <h3 id="dishModalTitle">Add Featured Dish</h3>
-            <form id="dish-form">
-                <input type="hidden" id="dish-id">
-                <div>
-                    <label>Dish Name *</label>
-                    <input type="text" id="dish-name" required placeholder="e.g., Chef's Signature Pasta">
-                </div>
-                <div>
-                    <label>Description *</label>
-                    <textarea id="dish-description" rows="3" required placeholder="Describe the dish..."></textarea>
-                </div>
-                <div>
-                    <label>Price *</label>
-                    <input type="text" id="dish-price" required placeholder="$XX">
-                </div>
-                <div>
-                    <label>Image URL *</label>
-                    <input type="url" id="dish-image" required placeholder="https://images.unsplash.com/...">
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
-                <div>
-                    <label>Display Order</label>
-                    <input type="number" id="dish-order" placeholder="1, 2, 3...">
-                </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                    <button type="submit" class="btn-primary">Save Dish</button>
-                    <button type="button" id="closeDishModalBtn" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
-                </div>
-            </form>
+    <!-- Story Section Editor -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>📝 Story & Philosophy</span>
+        </div>
+        <div style="padding: 1rem;">
+            <label>Main Title</label>
+            <input type="text" id="aboutStoryTitle" class="form-input" placeholder="From Passion to Plate">
+            <label>Story Content</label>
+            <textarea id="aboutStoryText" rows="4" class="form-input" placeholder="Chef Rong's journey..."></textarea>
+            <label>Philosophy Title</label>
+            <input type="text" id="aboutPhilosophyTitle" class="form-input" placeholder="Our Philosophy">
+            <label>Philosophy Content</label>
+            <textarea id="aboutPhilosophyText" rows="3" class="form-input" placeholder="We believe that great food..."></textarea>
+            <label>Promise Title</label>
+            <input type="text" id="aboutPromiseTitle" class="form-input" placeholder="My Promise to You">
+            <label>Promise Content</label>
+            <textarea id="aboutPromiseText" rows="3" class="form-input" placeholder="Every plate that leaves my kitchen..."></textarea>
+            <button class="save-btn" onclick="saveAboutStory()">Save Story Section</button>
         </div>
     </div>
+
+    <!-- Achievements Editor -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>🏆 Achievements</span>
+            <button class="add-item-btn" onclick="addAchievement()">+ Add Achievement</button>
+        </div>
+        <div id="achievementsList" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+
+    <!-- Values Editor -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>💎 Values</span>
+            <button class="add-item-btn" onclick="addValue()">+ Add Value</button>
+        </div>
+        <div id="valuesList" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+
+    <!-- Timeline Editor -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>📅 Timeline Events</span>
+            <button class="add-item-btn" onclick="addTimelineEvent()">+ Add Event</button>
+        </div>
+        <div id="timelineList" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+</div>
+
+<!-- Add Achievement Modal -->
+<div id="achievementModal" class="modal">
+    <div class="modal-content">
+        <h3>Add/Edit Achievement</h3>
+        <input type="hidden" id="achievementId">
+        <input type="text" id="achievementIcon" placeholder="Icon (e.g., fa-trophy)" class="form-input">
+        <input type="text" id="achievementTitle" placeholder="Achievement Title" class="form-input">
+        <textarea id="achievementDesc" rows="2" placeholder="Description" class="form-input"></textarea>
+        <button id="saveAchievementBtn" class="save-btn">Save</button>
+        <button onclick="closeAchievementModal()" class="delete-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- Add Value Modal -->
+<div id="valueModal" class="modal">
+    <div class="modal-content">
+        <h3>Add/Edit Value</h3>
+        <input type="hidden" id="valueId">
+        <input type="text" id="valueIcon" placeholder="Icon (e.g., fa-leaf)" class="form-input">
+        <input type="text" id="valueTitle" placeholder="Value Title" class="form-input">
+        <textarea id="valueDesc" rows="2" placeholder="Description" class="form-input"></textarea>
+        <button id="saveValueBtn" class="save-btn">Save</button>
+        <button onclick="closeValueModal()" class="delete-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- Add Timeline Modal -->
+<div id="timelineModal" class="modal">
+    <div class="modal-content">
+        <h3>Add/Edit Timeline Event</h3>
+        <input type="hidden" id="timelineId">
+        <input type="text" id="timelineYear" placeholder="Year (e.g., 2010)" class="form-input">
+        <input type="text" id="timelineTitle" placeholder="Event Title" class="form-input">
+        <textarea id="timelineDesc" rows="2" placeholder="Description" class="form-input"></textarea>
+        <button id="saveTimelineBtn" class="save-btn">Save</button>
+        <button onclick="closeTimelineModal()" class="delete-btn">Cancel</button>
+    </div>
+</div>
+
+<div id="gallery-tab" class="tab-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3>Manage Gallery Images</h3>
+        <button id="addGalleryImageBtn" class="btn-primary">+ Add New Image</button>
+    </div>
+    <div id="admin-gallery-list" class="menu-items-list">
+        Loading...
+    </div>
+</div>
+
+<!-- Contact Page Editor Tab -->
+<div id="contact-tab" class="tab-content">
+    <h3>Edit Contact Page Content</h3>
+    
+    <!-- Contact Info Section -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>📍 Contact Information</span>
+        </div>
+        <div style="padding: 1rem;">
+            <label>Location</label>
+            <input type="text" id="contactLocation" class="form-input" placeholder="Nairobi, Kenya">
+            
+            <label>Phone Number</label>
+            <input type="text" id="contactPhone" class="form-input" placeholder="+254 741 639510">
+            
+            <label>Email Address</label>
+            <input type="email" id="contactEmail" class="form-input" placeholder="Therongchef@gmail.com">
+            
+            <button class="save-btn" onclick="saveContactInfo()">Save Contact Info</button>
+        </div>
+    </div>
+    
+    <!-- Opening Hours Section -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>🕐 Opening Hours</span>
+            <button class="add-item-btn" onclick="addHour()">+ Add Hour</button>
+        </div>
+        <div id="hoursList" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+    
+    <!-- Social Links Section -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>🔗 Social Media Links</span>
+            <button class="add-item-btn" onclick="addSocialLink()">+ Add Social Link</button>
+        </div>
+        <div id="socialLinksList" style="padding: 1rem;">
+            Loading...
+        </div>
+    </div>
+    
+    <!-- Form Settings Section -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>📝 Form Settings</span>
+        </div>
+        <div style="padding: 1rem;">
+            <label>Form Title</label>
+            <input type="text" id="formTitle" class="form-input" placeholder="Make a Reservation">
+            
+            <label>Submit Button Text</label>
+            <input type="text" id="submitButtonText" class="form-input" placeholder="Book Now">
+            
+            <label>Success Message</label>
+            <textarea id="successMessage" rows="3" class="form-input" placeholder="Thank you for your booking request..."></textarea>
+            
+            <button class="save-btn" onclick="saveFormSettings()">Save Form Settings</button>
+        </div>
+    </div>
+    
+    <!-- Map Settings -->
+    <div class="menu-category-section">
+        <div class="menu-category-title">
+            <span>🗺️ Map Embed Code</span>
+        </div>
+        <div style="padding: 1rem;">
+            <label>Google Maps Embed URL</label>
+            <textarea id="mapEmbedUrl" rows="3" class="form-input" placeholder="https://www.google.com/maps/embed?..."></textarea>
+            <button class="save-btn" onclick="saveMapSettings()">Save Map Settings</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Hour Modal -->
+<div id="hourModal" class="modal">
+    <div class="modal-content">
+        <h3>Add/Edit Opening Hour</h3>
+        <input type="hidden" id="hourId">
+        <input type="text" id="hourDay" placeholder="Day (e.g., Monday - Friday)" class="form-input">
+        <input type="text" id="hourTime" placeholder="Hours (e.g., 11:00 AM - 10:00 PM)" class="form-input">
+        <input type="checkbox" id="hourClosed"> <label>Closed on this day</label>
+        <button id="saveHourBtn" class="save-btn">Save</button>
+        <button onclick="closeHourModal()" class="delete-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- Add Social Link Modal -->
+<div id="socialModal" class="modal">
+    <div class="modal-content">
+        <h3>Add/Edit Social Link</h3>
+        <input type="hidden" id="socialId">
+        <select id="socialIcon" class="form-input">
+            <option value="fab fa-instagram">Instagram</option>
+            <option value="fab fa-tiktok">TikTok</option>
+            <option value="fab fa-facebook">Facebook</option>
+            <option value="fab fa-twitter">Twitter</option>
+            <option value="fab fa-threads">Threads</option>
+            <option value="fab fa-youtube">YouTube</option>
+            <option value="fab fa-linkedin">LinkedIn</option>
+        </select>
+        <input type="url" id="socialUrl" placeholder="Social Media URL" class="form-input">
+        <button id="saveSocialBtn" class="save-btn">Save</button>
+        <button onclick="closeSocialModal()" class="delete-btn">Cancel</button>
+    </div>
+</div>
 
     <script type="module">
-        // Import Firebase
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
         
-        // Your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyC2671-k8-pU8gb5QmJWmMEWAIciAJsEeA",
             authDomain: "the-rong-chef.firebaseapp.com",
@@ -376,170 +661,383 @@
             appId: "1:9185728688:web:5aeeaca66312de1051c375"
         };
         
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         
-        let currentEditId = null;
-        let isRedirecting = false;  // PREVENTS MULTIPLE REDIRECTS
-        let dataLoaded = false;      // PREVENTS MULTIPLE DATA LOADS
+        let isRedirecting = false;
+        let dataLoaded = false;
         
-        // CHECK IF USER IS LOGGED IN - WITH REDIRECT PROTECTION
         onAuthStateChanged(auth, (user) => {
-            console.log('Auth state changed - User:', user ? user.email : 'No user');
-            
             if (!user && !isRedirecting) {
-                // Only redirect if not already redirecting
                 isRedirecting = true;
-                console.log('No user, redirecting to login');
                 window.location.href = 'login.html';
             } else if (user && !dataLoaded) {
-                // Only load data once
                 dataLoaded = true;
-                console.log('User logged in:', user.email);
                 loadDashboardStats();
+                loadAllMenuItems();
+                loadFeaturedDishes();
                 loadRemarks();
                 loadBookings();
-                loadFeaturedDishes();
             }
         });
         
-        // LOGOUT FUNCTION
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    isRedirecting = true;
-                    await signOut(auth);
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    alert('Error logging out: ' + error.message);
-                    isRedirecting = false;
-                }
-            });
-        }
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            isRedirecting = true;
+            await signOut(auth);
+            window.location.href = 'login.html';
+        });
         
-        // TAB SWITCHING FUNCTION
-        function switchToTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            const selectedTab = document.getElementById(`${tabName}-tab`);
-            if (selectedTab) {
-                selectedTab.classList.add('active');
-            }
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.getAttribute('data-tab') === tabName) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-        }
-        
-        // Tab button event listeners
+        // Tab switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const tabName = btn.getAttribute('data-tab');
-                switchToTab(tabName);
-            });
-        });
-        
-        // Quick action buttons
-        document.querySelectorAll('.quick-action-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabName = btn.getAttribute('data-tab');
-                switchToTab(tabName);
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
             });
         });
         
         // Load dashboard stats
         async function loadDashboardStats() {
-            try {
-                const dishesSnapshot = await getDocs(collection(db, 'featuredDishes'));
-                const remarksSnapshot = await getDocs(collection(db, 'remarks'));
-                const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
-                
-                let totalRating = 0;
-                remarksSnapshot.forEach(doc => {
-                    totalRating += doc.data().rating || 0;
-                });
-                const avgRating = remarksSnapshot.size > 0 ? (totalRating / remarksSnapshot.size).toFixed(1) : 0;
-                
-                document.getElementById('totalDishes').textContent = dishesSnapshot.size;
-                document.getElementById('totalRemarks').textContent = remarksSnapshot.size;
-                document.getElementById('totalBookings').textContent = bookingsSnapshot.size;
-                document.getElementById('avgRating').textContent = avgRating;
-            } catch (error) {
-                console.error('Error loading stats:', error);
+            const menuSnapshot = await getDocs(collection(db, 'menuItems'));
+            const dishesSnapshot = await getDocs(collection(db, 'featuredDishes'));
+            const remarksSnapshot = await getDocs(collection(db, 'remarks'));
+            const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
+            
+            let totalItems = 0;
+            menuSnapshot.forEach(doc => {
+                totalItems += doc.data().items?.length || 0;
+            });
+            
+            document.getElementById('totalMenuItems').textContent = totalItems;
+            document.getElementById('totalDishes').textContent = dishesSnapshot.size;
+            document.getElementById('totalRemarks').textContent = remarksSnapshot.size;
+            document.getElementById('totalBookings').textContent = bookingsSnapshot.size;
+        }
+        
+        // Load all menu items
+        async function loadAllMenuItems() {
+            const categories = ['appetizers', 'mains', 'desserts', 'beverages'];
+            
+            for (const category of categories) {
+                await loadMenuCategory(category);
             }
         }
         
-        // Load featured dishes
-        async function loadFeaturedDishes() {
-            const dishesDiv = document.getElementById('dishes-list');
-            if (!dishesDiv) return;
-            dishesDiv.innerHTML = '<div class="loading">Loading dishes...</div>';
+        async function loadMenuCategory(category) {
+            const container = document.getElementById(`${category}-list`);
+            if (!container) return;
             
             try {
-                const q = query(collection(db, 'featuredDishes'), orderBy('order', 'asc'));
+                const q = query(collection(db, 'menuItems', category, 'items'), orderBy('order', 'asc'));
                 const querySnapshot = await getDocs(q);
                 
                 if (querySnapshot.empty) {
-                    dishesDiv.innerHTML = '<p>No featured dishes yet. Click "Add New Dish" to get started!</p>';
+                    container.innerHTML = '<p style="color: #999; text-align: center;">No items yet. Click "Add" to create one.</p>';
                     return;
                 }
                 
-                dishesDiv.innerHTML = '';
+                container.innerHTML = '';
                 querySnapshot.forEach((doc) => {
-                    const dish = doc.data();
-                    dishesDiv.innerHTML += `
-                        <div class="dish-card">
-                            <div class="dish-info">
-                                <img src="${dish.image}" alt="${dish.name}" class="dish-image-preview" onerror="this.src='https://via.placeholder.com/80'">
-                                <div class="dish-content">
-                                    <div class="dish-name">${escapeHtml(dish.name)}</div>
-                                    <div class="dish-description">${escapeHtml(dish.description)}</div>
-                                    <div class="price">${dish.price}</div>
-                                    <div class="dish-date">Order: ${dish.order || 'N/A'}</div>
-                                </div>
+                    const item = doc.data();
+                    container.innerHTML += `
+                        <div class="menu-item-card">
+                            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/80'">
+                            <div class="menu-item-info">
+                                <div class="menu-item-name">${escapeHtml(item.name)}</div>
+                                <div class="menu-item-price">${item.price}</div>
+                                <div class="menu-item-desc">${escapeHtml(item.description)}</div>
                             </div>
-                            <div>
-                                <button class="edit-btn" data-id="${doc.id}">Edit</button>
-                                <button class="delete-btn" data-id="${doc.id}">Delete</button>
+                            <div class="menu-item-actions">
+                                <button class="edit-item-btn" onclick="editMenuItem('${category}', '${doc.id}')">Edit</button>
+                                <button class="delete-item-btn" onclick="deleteMenuItem('${category}', '${doc.id}')">Delete</button>
                             </div>
                         </div>
                     `;
                 });
-                
-                document.querySelectorAll('#dishes-list .edit-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const id = btn.getAttribute('data-id');
-                        editDish(id);
-                    });
-                });
-                
-                document.querySelectorAll('#dishes-list .delete-btn').forEach(btn => {
-                    btn.addEventListener('click', async () => {
-                        const id = btn.getAttribute('data-id');
-                        if (confirm('Are you sure you want to delete this dish?')) {
-                            try {
-                                await deleteDoc(doc(db, 'featuredDishes', id));
-                                loadFeaturedDishes();
-                                loadDashboardStats();
-                                alert('Dish deleted successfully!');
-                            } catch (error) {
-                                alert('Error deleting dish: ' + error.message);
-                            }
-                        }
-                    });
-                });
             } catch (error) {
-                dishesDiv.innerHTML = `<p>Error loading dishes: ${error.message}</p>`;
+                container.innerHTML = `<p>Error loading: ${error.message}</p>`;
             }
         }
+        
+        // Open add item modal
+        window.openAddItemModal = (category) => {
+            document.getElementById('modalTitle').textContent = `Add ${category.slice(0, -1)} Item`;
+            document.getElementById('itemCategory').value = category;
+            document.getElementById('itemId').value = '';
+            document.getElementById('menuItemForm').reset();
+            document.getElementById('itemImagePreview').style.backgroundImage = 'none';
+            document.getElementById('menuItemModal').style.display = 'flex';
+        };
+        
+        // Edit menu item
+        window.editMenuItem = async (category, itemId) => {
+            try {
+                const itemDoc = await getDocs(collection(db, 'menuItems', category, 'items'));
+                let item = null;
+                itemDoc.forEach((doc) => {
+                    if (doc.id === itemId) {
+                        item = { id: doc.id, ...doc.data() };
+                    }
+                });
+                
+                if (item) {
+                    document.getElementById('modalTitle').textContent = `Edit ${category.slice(0, -1)} Item`;
+                    document.getElementById('itemCategory').value = category;
+                    document.getElementById('itemId').value = item.id;
+                    document.getElementById('itemName').value = item.name;
+                    document.getElementById('itemDescription').value = item.description;
+                    document.getElementById('itemPrice').value = item.price;
+                    document.getElementById('itemImage').value = item.image;
+                    document.getElementById('itemImagePreview').style.backgroundImage = `url(${item.image})`;
+                    document.getElementById('itemImagePreview').style.backgroundSize = 'cover';
+                    document.getElementById('menuItemModal').style.display = 'flex';
+                }
+            } catch (error) {
+                alert('Error loading item: ' + error.message);
+            }
+        };
+        
+        // Delete menu item
+        window.deleteMenuItem = async (category, itemId) => {
+            if (confirm('Are you sure you want to delete this item?')) {
+                try {
+                    await deleteDoc(doc(db, 'menuItems', category, 'items', itemId));
+                    loadMenuCategory(category);
+                    alert('Item deleted successfully!');
+                } catch (error) {
+                    alert('Error deleting item: ' + error.message);
+                }
+            }
+        };
+        
+        // Save menu item
+        document.getElementById('menuItemForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const category = document.getElementById('itemCategory').value;
+            const itemId = document.getElementById('itemId').value;
+            const itemData = {
+                name: document.getElementById('itemName').value,
+                description: document.getElementById('itemDescription').value,
+                price: document.getElementById('itemPrice').value,
+                image: document.getElementById('itemImage').value,
+                order: Date.now()
+            };
+            
+            try {
+                if (itemId) {
+                    await updateDoc(doc(db, 'menuItems', category, 'items', itemId), itemData);
+                    alert('Item updated successfully!');
+                } else {
+                    await addDoc(collection(db, 'menuItems', category, 'items'), itemData);
+                    alert('Item added successfully!');
+                }
+                closeMenuItemModal();
+                loadMenuCategory(category);
+                loadDashboardStats();
+            } catch (error) {
+                alert('Error saving item: ' + error.message);
+            }
+        });
+        
+        // Load featured dishes
+        async function loadFeaturedDishes() {
+            const container = document.getElementById('dishes-list');
+            if (!container) return;
+            
+            try {
+                const q = query(collection(db, 'featuredDishes'), orderBy('order', 'asc'));
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p>No featured dishes. Click "Add Featured Dish" to get started.</p>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const dish = doc.data();
+                    container.innerHTML += `
+                        <div class="menu-item-card">
+                            <img src="${dish.image}" onerror="this.src='https://via.placeholder.com/80'">
+                            <div class="menu-item-info">
+                                <div class="menu-item-name">${escapeHtml(dish.name)}</div>
+                                <div class="menu-item-price">${dish.price}</div>
+                                <div class="menu-item-desc">${escapeHtml(dish.description)}</div>
+                            </div>
+                            <div class="menu-item-actions">
+                                <button class="edit-item-btn" onclick="editFeaturedDish('${doc.id}')">Edit</button>
+                                <button class="delete-item-btn" onclick="deleteFeaturedDish('${doc.id}')">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                container.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Load remarks
+        async function loadRemarks() {
+            const container = document.getElementById('remarks-list');
+            if (!container) return;
+            
+            try {
+                const q = query(collection(db, 'remarks'), orderBy('date', 'desc'));
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p>No remarks yet.</p>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const remark = doc.data();
+                    container.innerHTML += `
+                        <div class="menu-item-card">
+                            <div class="menu-item-info">
+                                <div class="menu-item-name">${escapeHtml(remark.author)}</div>
+                                <div class="menu-item-price">${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}</div>
+                                <div class="menu-item-desc">"${escapeHtml(remark.text)}"</div>
+                                <small>${new Date(remark.date).toLocaleDateString()}</small>
+                            </div>
+                            <div class="menu-item-actions">
+                                <button class="delete-item-btn" onclick="deleteRemark('${doc.id}')">Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                container.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Load bookings
+        async function loadBookings() {
+            const container = document.getElementById('bookings-list');
+            if (!container) return;
+            
+            try {
+                const q = query(collection(db, 'bookings'), orderBy('submitted', 'desc'));
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    container.innerHTML = '<p>No bookings yet.</p>';
+                    return;
+                }
+                
+                container.innerHTML = '';
+                snapshot.forEach((doc) => {
+                    const booking = doc.data();
+                    container.innerHTML += `
+                        <div class="menu-item-card">
+                            <div class="menu-item-info">
+                                <div class="menu-item-name">${escapeHtml(booking.name)} - ${escapeHtml(booking.email)}</div>
+                                <div>📅 ${booking.date} at ${booking.time} | 👥 ${booking.guests} guests</div>
+                                <div>📞 ${booking.phone || 'No phone'}</div>
+                                <div>💬 ${booking.message || 'No special requests'}</div>
+                                <small>Submitted: ${new Date(booking.submitted).toLocaleString()}</small>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                container.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Image preview for menu item modal
+        document.getElementById('itemImage').addEventListener('input', (e) => {
+            const preview = document.getElementById('itemImagePreview');
+            if (e.target.value) {
+                preview.style.backgroundImage = `url(${e.target.value})`;
+                preview.style.backgroundSize = 'cover';
+                preview.style.backgroundPosition = 'center';
+            } else {
+                preview.style.backgroundImage = 'none';
+            }
+        });
+        
+        // Close modal functions
+        window.closeMenuItemModal = () => {
+            document.getElementById('menuItemModal').style.display = 'none';
+        };
+        
+        window.closeRemarkModal = () => {
+            document.getElementById('remarkModal').style.display = 'none';
+        };
+        
+        // Add remark button
+        document.getElementById('addRemarkBtn').addEventListener('click', () => {
+            document.getElementById('remarkModal').style.display = 'flex';
+        });
+        
+        // Add remark form
+        document.getElementById('remarkForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                await addDoc(collection(db, 'remarks'), {
+                    author: document.getElementById('remarkAuthor').value,
+                    rating: parseInt(document.getElementById('remarkRating').value),
+                    text: document.getElementById('remarkText').value,
+                    date: new Date().toISOString()
+                });
+                alert('Remark added successfully!');
+                closeRemarkModal();
+                loadRemarks();
+                loadDashboardStats();
+                document.getElementById('remarkForm').reset();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        });
+        
+        // Add featured dish button (simplified - use same modal pattern)
+        document.getElementById('addDishBtn').addEventListener('click', () => {
+            const name = prompt('Enter dish name:');
+            if (!name) return;
+            const description = prompt('Enter description:');
+            const price = prompt('Enter price (e.g., $26):');
+            const image = prompt('Enter image URL:');
+            
+            addDoc(collection(db, 'featuredDishes'), {
+                name, description, price, image,
+                order: Date.now()
+            }).then(() => {
+                alert('Featured dish added!');
+                loadFeaturedDishes();
+                loadDashboardStats();
+            }).catch(err => alert('Error: ' + err.message));
+        });
+        
+        // Delete functions
+        window.deleteFeaturedDish = async (id) => {
+            if (confirm('Delete this featured dish?')) {
+                await deleteDoc(doc(db, 'featuredDishes', id));
+                loadFeaturedDishes();
+                loadDashboardStats();
+            }
+        };
+        
+        window.deleteRemark = async (id) => {
+            if (confirm('Delete this remark?')) {
+                await deleteDoc(doc(db, 'remarks', id));
+                loadRemarks();
+                loadDashboardStats();
+            }
+        };
+        
+        window.editFeaturedDish = async (id) => {
+            const newName = prompt('Enter new name:');
+            if (newName) {
+                await updateDoc(doc(db, 'featuredDishes', id), { name: newName });
+                loadFeaturedDishes();
+            }
+        };
         
         function escapeHtml(text) {
             if (!text) return '';
@@ -548,284 +1046,649 @@
             return div.innerHTML;
         }
         
-        // Load remarks
-        async function loadRemarks() {
-            const remarksDiv = document.getElementById('remarks-list');
-            if (!remarksDiv) return;
-            remarksDiv.innerHTML = '<div class="loading">Loading remarks...</div>';
-            
-            try {
-                const q = query(collection(db, 'remarks'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                
-                if (querySnapshot.empty) {
-                    remarksDiv.innerHTML = '<p>No remarks yet. Add your first remark!</p>';
-                    return;
-                }
-                
-                remarksDiv.innerHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const remark = doc.data();
-                    remarksDiv.innerHTML += `
-                        <div class="remark-card">
-                            <div class="remark-content">
-                                <div class="remark-author">${escapeHtml(remark.author)}</div>
-                                <div class="remark-rating">${'★'.repeat(remark.rating)}${'☆'.repeat(5-remark.rating)}</div>
-                                <div class="remark-text">${escapeHtml(remark.text)}</div>
-                                <div class="remark-date">${new Date(remark.date).toLocaleDateString()}</div>
-                            </div>
-                            <div>
-                                <button class="edit-remark-btn" data-id="${doc.id}" data-author="${escapeHtml(remark.author)}" data-rating="${remark.rating}" data-text="${escapeHtml(remark.text).replace(/'/g, "\\'")}">Edit</button>
-                                <button class="delete-remark-btn" data-id="${doc.id}">Delete</button>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                document.querySelectorAll('.edit-remark-btn').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const id = btn.getAttribute('data-id');
-                        const author = btn.getAttribute('data-author');
-                        const rating = btn.getAttribute('data-rating');
-                        const text = btn.getAttribute('data-text');
-                        editRemark(id, author, rating, text);
-                    });
-                });
-                
-                document.querySelectorAll('.delete-remark-btn').forEach(btn => {
-                    btn.addEventListener('click', async () => {
-                        const id = btn.getAttribute('data-id');
-                        if (confirm('Are you sure you want to delete this remark?')) {
-                            try {
-                                await deleteDoc(doc(db, 'remarks', id));
-                                loadRemarks();
-                                loadDashboardStats();
-                                alert('Remark deleted successfully!');
-                            } catch (error) {
-                                alert('Error deleting remark: ' + error.message);
-                            }
-                        }
-                    });
-                });
-            } catch (error) {
-                remarksDiv.innerHTML = `<p>Error loading remarks: ${error.message}</p>`;
-            }
+        // Click outside modal to close
+        window.onclick = (e) => {
+            if (e.target === document.getElementById('menuItemModal')) closeMenuItemModal();
+            if (e.target === document.getElementById('remarkModal')) closeRemarkModal();
+        };
+
+        // ==================== ABOUT PAGE MANAGEMENT ====================
+
+// Load About Page Content
+async function loadAboutContent() {
+    await loadHeroContent();
+    await loadStoryContent();
+    await loadAchievements();
+    await loadValues();
+    await loadTimelineEvents();
+}
+
+// Hero Content
+async function loadHeroContent() {
+    try {
+        const heroDoc = await getDoc(doc(db, 'aboutContent', 'hero'));
+        if (heroDoc.exists()) {
+            const data = heroDoc.data();
+            document.getElementById('aboutHeroTitle').value = data.title || 'About The Rong Chef';
+            document.getElementById('aboutHeroSubtitle').value = data.subtitle || 'The story behind the flavors';
+        } else {
+            document.getElementById('aboutHeroTitle').value = 'About The Rong Chef';
+            document.getElementById('aboutHeroSubtitle').value = 'The story behind the flavors';
+        }
+    } catch (error) {
+        console.error('Error loading hero:', error);
+    }
+}
+
+window.saveAboutHero = async () => {
+    const heroData = {
+        title: document.getElementById('aboutHeroTitle').value,
+        subtitle: document.getElementById('aboutHeroSubtitle').value,
+        updatedAt: new Date().toISOString()
+    };
+    
+    try {
+        await setDoc(doc(db, 'aboutContent', 'hero'), heroData);
+        alert('Hero section saved successfully!');
+    } catch (error) {
+        alert('Error saving: ' + error.message);
+    }
+};
+
+// Story Content
+async function loadStoryContent() {
+    try {
+        const storyDoc = await getDoc(doc(db, 'aboutContent', 'story'));
+        if (storyDoc.exists()) {
+            const data = storyDoc.data();
+            document.getElementById('aboutStoryTitle').value = data.storyTitle || 'From Passion to Plate';
+            document.getElementById('aboutStoryText').value = data.storyText || '';
+            document.getElementById('aboutPhilosophyTitle').value = data.philosophyTitle || 'Our Philosophy';
+            document.getElementById('aboutPhilosophyText').value = data.philosophyText || '';
+            document.getElementById('aboutPromiseTitle').value = data.promiseTitle || 'My Promise to You';
+            document.getElementById('aboutPromiseText').value = data.promiseText || '';
+        } else {
+            // Set default values
+            document.getElementById('aboutStoryTitle').value = 'From Passion to Plate';
+            document.getElementById('aboutStoryText').value = 'Chef Rong\'s journey began 15 years ago in a small kitchen, experimenting with family recipes and local ingredients. Today, The Rong Chef represents the fusion of traditional techniques with modern creativity.';
+            document.getElementById('aboutPhilosophyTitle').value = 'Our Philosophy';
+            document.getElementById('aboutPhilosophyText').value = 'We believe that great food tells a story. Every dish we create uses locally-sourced, seasonal ingredients prepared with precision and love.';
+            document.getElementById('aboutPromiseTitle').value = 'My Promise to You';
+            document.getElementById('aboutPromiseText').value = 'Every plate that leaves my kitchen is crafted with the same care and attention I would give to my own family.';
+        }
+    } catch (error) {
+        console.error('Error loading story:', error);
+    }
+}
+
+window.saveAboutStory = async () => {
+    const storyData = {
+        storyTitle: document.getElementById('aboutStoryTitle').value,
+        storyText: document.getElementById('aboutStoryText').value,
+        philosophyTitle: document.getElementById('aboutPhilosophyTitle').value,
+        philosophyText: document.getElementById('aboutPhilosophyText').value,
+        promiseTitle: document.getElementById('aboutPromiseTitle').value,
+        promiseText: document.getElementById('aboutPromiseText').value,
+        updatedAt: new Date().toISOString()
+    };
+    
+    try {
+        await setDoc(doc(db, 'aboutContent', 'story'), storyData);
+        alert('Story section saved successfully!');
+    } catch (error) {
+        alert('Error saving: ' + error.message);
+    }
+};
+
+// Achievements
+async function loadAchievements() {
+    const container = document.getElementById('achievementsList');
+    container.innerHTML = '<div class="loading">Loading...</div>';
+    
+    try {
+        const q = query(collection(db, 'aboutContent', 'achievements', 'items'), orderBy('order', 'asc'));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p>No achievements yet. Click "Add Achievement" to get started.</p>';
+            return;
         }
         
-        // Load bookings
-        async function loadBookings() {
-            const bookingsDiv = document.getElementById('bookings-list');
-            if (!bookingsDiv) return;
-            bookingsDiv.innerHTML = '<div class="loading">Loading bookings...</div>';
-            
-            try {
-                const q = query(collection(db, 'bookings'), orderBy('submitted', 'desc'));
-                const querySnapshot = await getDocs(q);
-                
-                if (querySnapshot.empty) {
-                    bookingsDiv.innerHTML = '<p>No bookings yet.</p>';
-                    return;
-                }
-                
-                bookingsDiv.innerHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const booking = doc.data();
-                    bookingsDiv.innerHTML += `
-                        <div class="booking-card">
-                            <strong>${escapeHtml(booking.name)}</strong> - ${escapeHtml(booking.email)}<br>
-                            Phone: ${escapeHtml(booking.phone || 'N/A')}<br>
-                            Date: ${booking.date} at ${booking.time}<br>
-                            Guests: ${booking.guests}<br>
-                            Message: ${escapeHtml(booking.message || 'None')}<br>
-                            <small>Submitted: ${new Date(booking.submitted).toLocaleString()}</small>
-                        </div>
-                    `;
-                });
-            } catch (error) {
-                bookingsDiv.innerHTML = `<p>Error loading bookings: ${error.message}</p>`;
-            }
+        container.innerHTML = '';
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            container.innerHTML += `
+                <div class="menu-item-card">
+                    <div>
+                        <i class="fas ${item.icon}"></i>
+                        <strong>${item.title}</strong><br>
+                        ${item.description}
+                    </div>
+                    <div>
+                        <button class="edit-btn" onclick="editAchievement('${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteAchievement('${doc.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+window.addAchievement = () => {
+    document.getElementById('achievementId').value = '';
+    document.getElementById('achievementIcon').value = 'fa-trophy';
+    document.getElementById('achievementTitle').value = '';
+    document.getElementById('achievementDesc').value = '';
+    document.getElementById('achievementModal').style.display = 'flex';
+};
+
+window.editAchievement = async (id) => {
+    const docRef = doc(db, 'aboutContent', 'achievements', 'items', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('achievementId').value = id;
+        document.getElementById('achievementIcon').value = data.icon || 'fa-trophy';
+        document.getElementById('achievementTitle').value = data.title;
+        document.getElementById('achievementDesc').value = data.description;
+        document.getElementById('achievementModal').style.display = 'flex';
+    }
+};
+
+window.deleteAchievement = async (id) => {
+    if (confirm('Delete this achievement?')) {
+        await deleteDoc(doc(db, 'aboutContent', 'achievements', 'items', id));
+        loadAchievements();
+    }
+};
+
+// Values
+async function loadValues() {
+    const container = document.getElementById('valuesList');
+    container.innerHTML = '<div class="loading">Loading...</div>';
+    
+    try {
+        const q = query(collection(db, 'aboutContent', 'values', 'items'), orderBy('order', 'asc'));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p>No values yet. Click "Add Value" to get started.</p>';
+            return;
         }
         
-        // Add new remark
-        const remarkForm = document.getElementById('add-remark-form');
-        if (remarkForm) {
-            remarkForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const author = document.getElementById('author').value;
-                const rating = parseInt(document.getElementById('rating').value);
-                const text = document.getElementById('remark-text').value;
-                
-                try {
-                    await addDoc(collection(db, 'remarks'), {
-                        author: author,
-                        rating: rating,
-                        text: text,
-                        date: new Date().toISOString()
-                    });
-                    
-                    alert('Remark added successfully!');
-                    remarkForm.reset();
-                    loadRemarks();
-                    loadDashboardStats();
-                } catch (error) {
-                    alert('Error adding remark: ' + error.message);
-                }
-            });
+        container.innerHTML = '';
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            container.innerHTML += `
+                <div class="menu-item-card">
+                    <div>
+                        <i class="fas ${item.icon}"></i>
+                        <strong>${item.title}</strong><br>
+                        ${item.description}
+                    </div>
+                    <div>
+                        <button class="edit-btn" onclick="editValue('${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteValue('${doc.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+window.addValue = () => {
+    document.getElementById('valueId').value = '';
+    document.getElementById('valueIcon').value = 'fa-leaf';
+    document.getElementById('valueTitle').value = '';
+    document.getElementById('valueDesc').value = '';
+    document.getElementById('valueModal').style.display = 'flex';
+};
+
+window.editValue = async (id) => {
+    const docRef = doc(db, 'aboutContent', 'values', 'items', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('valueId').value = id;
+        document.getElementById('valueIcon').value = data.icon || 'fa-leaf';
+        document.getElementById('valueTitle').value = data.title;
+        document.getElementById('valueDesc').value = data.description;
+        document.getElementById('valueModal').style.display = 'flex';
+    }
+};
+
+window.deleteValue = async (id) => {
+    if (confirm('Delete this value?')) {
+        await deleteDoc(doc(db, 'aboutContent', 'values', 'items', id));
+        loadValues();
+    }
+};
+
+// Timeline Events
+async function loadTimelineEvents() {
+    const container = document.getElementById('timelineList');
+    container.innerHTML = '<div class="loading">Loading...</div>';
+    
+    try {
+        const q = query(collection(db, 'aboutContent', 'timeline', 'items'), orderBy('year', 'asc'));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p>No timeline events yet. Click "Add Event" to get started.</p>';
+            return;
         }
         
-        function editRemark(id, author, rating, text) {
-            currentEditId = id;
-            document.getElementById('edit-author').value = author;
-            document.getElementById('edit-rating').value = rating;
-            document.getElementById('edit-text').value = text;
-            document.getElementById('edit-modal').style.display = 'flex';
+        container.innerHTML = '';
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            container.innerHTML += `
+                <div class="menu-item-card">
+                    <div>
+                        <strong>${item.year}</strong> - ${item.title}<br>
+                        ${item.description}
+                    </div>
+                    <div>
+                        <button class="edit-btn" onclick="editTimelineEvent('${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteTimelineEvent('${doc.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+window.addTimelineEvent = () => {
+    document.getElementById('timelineId').value = '';
+    document.getElementById('timelineYear').value = '';
+    document.getElementById('timelineTitle').value = '';
+    document.getElementById('timelineDesc').value = '';
+    document.getElementById('timelineModal').style.display = 'flex';
+};
+
+window.editTimelineEvent = async (id) => {
+    const docRef = doc(db, 'aboutContent', 'timeline', 'items', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('timelineId').value = id;
+        document.getElementById('timelineYear').value = data.year;
+        document.getElementById('timelineTitle').value = data.title;
+        document.getElementById('timelineDesc').value = data.description;
+        document.getElementById('timelineModal').style.display = 'flex';
+    }
+};
+
+window.deleteTimelineEvent = async (id) => {
+    if (confirm('Delete this timeline event?')) {
+        await deleteDoc(doc(db, 'aboutContent', 'timeline', 'items', id));
+        loadTimelineEvents();
+    }
+};
+
+// Save modal functions
+document.getElementById('saveAchievementBtn').addEventListener('click', async () => {
+    const id = document.getElementById('achievementId').value;
+    const data = {
+        icon: document.getElementById('achievementIcon').value,
+        title: document.getElementById('achievementTitle').value,
+        description: document.getElementById('achievementDesc').value,
+        order: Date.now()
+    };
+    
+    if (id) {
+        await updateDoc(doc(db, 'aboutContent', 'achievements', 'items', id), data);
+    } else {
+        await addDoc(collection(db, 'aboutContent', 'achievements', 'items'), data);
+    }
+    closeAchievementModal();
+    loadAchievements();
+});
+
+document.getElementById('saveValueBtn').addEventListener('click', async () => {
+    const id = document.getElementById('valueId').value;
+    const data = {
+        icon: document.getElementById('valueIcon').value,
+        title: document.getElementById('valueTitle').value,
+        description: document.getElementById('valueDesc').value,
+        order: Date.now()
+    };
+    
+    if (id) {
+        await updateDoc(doc(db, 'aboutContent', 'values', 'items', id), data);
+    } else {
+        await addDoc(collection(db, 'aboutContent', 'values', 'items'), data);
+    }
+    closeValueModal();
+    loadValues();
+});
+
+document.getElementById('saveTimelineBtn').addEventListener('click', async () => {
+    const id = document.getElementById('timelineId').value;
+    const data = {
+        year: document.getElementById('timelineYear').value,
+        title: document.getElementById('timelineTitle').value,
+        description: document.getElementById('timelineDesc').value
+    };
+    
+    if (id) {
+        await updateDoc(doc(db, 'aboutContent', 'timeline', 'items', id), data);
+    } else {
+        await addDoc(collection(db, 'aboutContent', 'timeline', 'items'), data);
+    }
+    closeTimelineModal();
+    loadTimelineEvents();
+});
+
+function closeAchievementModal() { document.getElementById('achievementModal').style.display = 'none'; }
+function closeValueModal() { document.getElementById('valueModal').style.display = 'none'; }
+function closeTimelineModal() { document.getElementById('timelineModal').style.display = 'none'; }
+
+// Add to the existing onAuthStateChanged
+// Inside the user logged in block, add:
+// loadAboutContent();
+
+// Also add these styles to the existing style section
+const style = document.createElement('style');
+style.textContent = `
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .save-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+`;
+document.head.appendChild(style);
+
+// ==================== CONTACT PAGE MANAGEMENT ====================
+
+// Load Contact Page Content
+async function loadContactContent() {
+    await loadContactInfo();
+    await loadHours();
+    await loadSocialLinks();
+    await loadFormSettings();
+    await loadMapSettings();
+}
+
+// Contact Info
+async function loadContactInfo() {
+    try {
+        const infoDoc = await getDoc(doc(db, 'contactContent', 'info'));
+        if (infoDoc.exists()) {
+            const data = infoDoc.data();
+            document.getElementById('contactLocation').value = data.location || 'Nairobi, Kenya';
+            document.getElementById('contactPhone').value = data.phone || '+254 741 639510';
+            document.getElementById('contactEmail').value = data.email || 'Therongchef@gmail.com';
+        } else {
+            document.getElementById('contactLocation').value = 'Nairobi, Kenya';
+            document.getElementById('contactPhone').value = '+254 741 639510';
+            document.getElementById('contactEmail').value = 'Therongchef@gmail.com';
+        }
+    } catch (error) {
+        console.error('Error loading contact info:', error);
+    }
+}
+
+window.saveContactInfo = async () => {
+    const infoData = {
+        location: document.getElementById('contactLocation').value,
+        phone: document.getElementById('contactPhone').value,
+        email: document.getElementById('contactEmail').value,
+        updatedAt: new Date().toISOString()
+    };
+    
+    try {
+        await setDoc(doc(db, 'contactContent', 'info'), infoData);
+        alert('Contact info saved successfully!');
+    } catch (error) {
+        alert('Error saving: ' + error.message);
+    }
+};
+
+// Hours Management
+async function loadHours() {
+    const container = document.getElementById('hoursList');
+    container.innerHTML = '<div class="loading">Loading...</div>';
+    
+    try {
+        const q = query(collection(db, 'contactContent', 'hours', 'items'), orderBy('order', 'asc'));
+        const snapshot = await getDocs(q);
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p>No hours set. Click "Add Hour" to get started.</p>';
+            return;
         }
         
-        const saveEditBtn = document.getElementById('saveEditBtn');
-        if (saveEditBtn) {
-            saveEditBtn.addEventListener('click', async () => {
-                const author = document.getElementById('edit-author').value;
-                const rating = parseInt(document.getElementById('edit-rating').value);
-                const text = document.getElementById('edit-text').value;
-                
-                try {
-                    await updateDoc(doc(db, 'remarks', currentEditId), {
-                        author: author,
-                        rating: rating,
-                        text: text
-                    });
-                    
-                    closeModal();
-                    loadRemarks();
-                    loadDashboardStats();
-                    alert('Remark updated successfully!');
-                } catch (error) {
-                    alert('Error updating remark: ' + error.message);
-                }
-            });
+        container.innerHTML = '';
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            container.innerHTML += `
+                <div class="menu-item-card">
+                    <div>
+                        <strong>${item.day}</strong><br>
+                        ${item.closed ? '<span style="color: #dc3545;">Closed</span>' : item.time}
+                    </div>
+                    <div>
+                        <button class="edit-btn" onclick="editHour('${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteHour('${doc.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+window.addHour = () => {
+    document.getElementById('hourId').value = '';
+    document.getElementById('hourDay').value = '';
+    document.getElementById('hourTime').value = '';
+    document.getElementById('hourClosed').checked = false;
+    document.getElementById('hourModal').style.display = 'flex';
+};
+
+window.editHour = async (id) => {
+    const docRef = doc(db, 'contactContent', 'hours', 'items', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('hourId').value = id;
+        document.getElementById('hourDay').value = data.day;
+        document.getElementById('hourTime').value = data.time || '';
+        document.getElementById('hourClosed').checked = data.closed || false;
+        document.getElementById('hourModal').style.display = 'flex';
+    }
+};
+
+window.deleteHour = async (id) => {
+    if (confirm('Delete this hour entry?')) {
+        await deleteDoc(doc(db, 'contactContent', 'hours', 'items', id));
+        loadHours();
+    }
+};
+
+document.getElementById('saveHourBtn').addEventListener('click', async () => {
+    const id = document.getElementById('hourId').value;
+    const data = {
+        day: document.getElementById('hourDay').value,
+        time: document.getElementById('hourTime').value,
+        closed: document.getElementById('hourClosed').checked,
+        order: Date.now()
+    };
+    
+    if (id) {
+        await updateDoc(doc(db, 'contactContent', 'hours', 'items', id), data);
+    } else {
+        await addDoc(collection(db, 'contactContent', 'hours', 'items'), data);
+    }
+    closeHourModal();
+    loadHours();
+});
+
+function closeHourModal() {
+    document.getElementById('hourModal').style.display = 'none';
+}
+
+// Social Links Management
+async function loadSocialLinks() {
+    const container = document.getElementById('socialLinksList');
+    container.innerHTML = '<div class="loading">Loading...</div>';
+    
+    try {
+        const snapshot = await getDocs(collection(db, 'contactContent', 'social', 'items'));
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<p>No social links. Click "Add Social Link" to get started.</p>';
+            return;
         }
         
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', closeModal);
+        container.innerHTML = '';
+        snapshot.forEach((doc) => {
+            const item = doc.data();
+            container.innerHTML += `
+                <div class="menu-item-card">
+                    <div>
+                        <i class="${item.icon}"></i> ${item.icon.replace('fab fa-', '').toUpperCase()}<br>
+                        <a href="${item.url}" target="_blank">${item.url}</a>
+                    </div>
+                    <div>
+                        <button class="edit-btn" onclick="editSocialLink('${doc.id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteSocialLink('${doc.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+window.addSocialLink = () => {
+    document.getElementById('socialId').value = '';
+    document.getElementById('socialIcon').value = 'fab fa-instagram';
+    document.getElementById('socialUrl').value = '';
+    document.getElementById('socialModal').style.display = 'flex';
+};
+
+window.editSocialLink = async (id) => {
+    const docRef = doc(db, 'contactContent', 'social', 'items', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        document.getElementById('socialId').value = id;
+        document.getElementById('socialIcon').value = data.icon;
+        document.getElementById('socialUrl').value = data.url;
+        document.getElementById('socialModal').style.display = 'flex';
+    }
+};
+
+window.deleteSocialLink = async (id) => {
+    if (confirm('Delete this social link?')) {
+        await deleteDoc(doc(db, 'contactContent', 'social', 'items', id));
+        loadSocialLinks();
+    }
+};
+
+document.getElementById('saveSocialBtn').addEventListener('click', async () => {
+    const id = document.getElementById('socialId').value;
+    const data = {
+        icon: document.getElementById('socialIcon').value,
+        url: document.getElementById('socialUrl').value,
+        order: Date.now()
+    };
+    
+    if (id) {
+        await updateDoc(doc(db, 'contactContent', 'social', 'items', id), data);
+    } else {
+        await addDoc(collection(db, 'contactContent', 'social', 'items'), data);
+    }
+    closeSocialModal();
+    loadSocialLinks();
+});
+
+function closeSocialModal() {
+    document.getElementById('socialModal').style.display = 'none';
+}
+
+// Form Settings
+async function loadFormSettings() {
+    try {
+        const formDoc = await getDoc(doc(db, 'contactContent', 'form'));
+        if (formDoc.exists()) {
+            const data = formDoc.data();
+            document.getElementById('formTitle').value = data.title || 'Make a Reservation';
+            document.getElementById('submitButtonText').value = data.submitButtonText || 'Book Now';
+            document.getElementById('successMessage').value = data.successMessage || 'Thank you for your booking request! We will contact you shortly.';
+        } else {
+            document.getElementById('formTitle').value = 'Make a Reservation';
+            document.getElementById('submitButtonText').value = 'Book Now';
+            document.getElementById('successMessage').value = 'Thank you for your booking request! We will contact you shortly.';
         }
-        
-        function closeModal() {
-            document.getElementById('edit-modal').style.display = 'none';
-            currentEditId = null;
+    } catch (error) {
+        console.error('Error loading form settings:', error);
+    }
+}
+
+window.saveFormSettings = async () => {
+    const formData = {
+        title: document.getElementById('formTitle').value,
+        submitButtonText: document.getElementById('submitButtonText').value,
+        successMessage: document.getElementById('successMessage').value,
+        updatedAt: new Date().toISOString()
+    };
+    
+    try {
+        await setDoc(doc(db, 'contactContent', 'form'), formData);
+        alert('Form settings saved successfully!');
+    } catch (error) {
+        alert('Error saving: ' + error.message);
+    }
+};
+
+// Map Settings
+async function loadMapSettings() {
+    try {
+        const mapDoc = await getDoc(doc(db, 'contactContent', 'map'));
+        if (mapDoc.exists()) {
+            const data = mapDoc.data();
+            document.getElementById('mapEmbedUrl').value = data.embedUrl || '';
         }
-        
-        const addDishBtn = document.getElementById('addDishBtn');
-        if (addDishBtn) {
-            addDishBtn.addEventListener('click', () => {
-                document.getElementById('dishModalTitle').textContent = 'Add Featured Dish';
-                document.getElementById('dish-form').reset();
-                document.getElementById('dish-id').value = '';
-                document.getElementById('image-preview').style.backgroundImage = 'none';
-                document.getElementById('dish-modal').style.display = 'flex';
-            });
-        }
-        
-        async function editDish(id) {
-            try {
-                const dishDoc = await getDocs(collection(db, 'featuredDishes'));
-                let dish = null;
-                dishDoc.forEach((doc) => {
-                    if (doc.id === id) {
-                        dish = { id: doc.id, ...doc.data() };
-                    }
-                });
-                
-                if (dish) {
-                    document.getElementById('dishModalTitle').textContent = 'Edit Featured Dish';
-                    document.getElementById('dish-id').value = dish.id;
-                    document.getElementById('dish-name').value = dish.name;
-                    document.getElementById('dish-description').value = dish.description;
-                    document.getElementById('dish-price').value = dish.price;
-                    document.getElementById('dish-image').value = dish.image;
-                    document.getElementById('dish-order').value = dish.order || '';
-                    document.getElementById('image-preview').style.backgroundImage = `url(${dish.image})`;
-                    document.getElementById('image-preview').style.backgroundSize = 'cover';
-                    document.getElementById('image-preview').style.backgroundPosition = 'center';
-                    document.getElementById('dish-modal').style.display = 'flex';
-                }
-            } catch (error) {
-                console.error('Error loading dish:', error);
-                alert('Error loading dish details: ' + error.message);
-            }
-        }
-        
-        const closeDishModalBtn = document.getElementById('closeDishModalBtn');
-        if (closeDishModalBtn) {
-            closeDishModalBtn.addEventListener('click', () => {
-                document.getElementById('dish-modal').style.display = 'none';
-            });
-        }
-        
-        const dishImageInput = document.getElementById('dish-image');
-        if (dishImageInput) {
-            dishImageInput.addEventListener('input', (e) => {
-                const url = e.target.value;
-                const preview = document.getElementById('image-preview');
-                if (url) {
-                    preview.style.backgroundImage = `url(${url})`;
-                    preview.style.backgroundSize = 'cover';
-                    preview.style.backgroundPosition = 'center';
-                } else {
-                    preview.style.backgroundImage = 'none';
-                }
-            });
-        }
-        
-        const dishForm = document.getElementById('dish-form');
-        if (dishForm) {
-            dishForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const id = document.getElementById('dish-id').value;
-                const dishData = {
-                    name: document.getElementById('dish-name').value,
-                    description: document.getElementById('dish-description').value,
-                    price: document.getElementById('dish-price').value,
-                    image: document.getElementById('dish-image').value,
-                    order: parseInt(document.getElementById('dish-order').value) || 999
-                };
-                
-                try {
-                    if (id) {
-                        await updateDoc(doc(db, 'featuredDishes', id), dishData);
-                        alert('Dish updated successfully!');
-                    } else {
-                        await addDoc(collection(db, 'featuredDishes'), dishData);
-                        alert('Dish added successfully!');
-                    }
-                    document.getElementById('dish-modal').style.display = 'none';
-                    loadFeaturedDishes();
-                    loadDashboardStats();
-                } catch (error) {
-                    alert('Error saving dish: ' + error.message);
-                }
-            });
-        }
-        
-        const dishModal = document.getElementById('dish-modal');
-        if (dishModal) {
-            dishModal.addEventListener('click', (e) => {
-                if (e.target === dishModal) {
-                    dishModal.style.display = 'none';
-                }
-            });
-        }
-        
-        const editModal = document.getElementById('edit-modal');
-        if (editModal) {
-            editModal.addEventListener('click', (e) => {
-                if (e.target === editModal) {
-                    editModal.style.display = 'none';
-                }
-            });
-        }
+    } catch (error) {
+        console.error('Error loading map settings:', error);
+    }
+}
+
+window.saveMapSettings = async () => {
+    try {
+        await setDoc(doc(db, 'contactContent', 'map'), {
+            embedUrl: document.getElementById('mapEmbedUrl').value,
+            updatedAt: new Date().toISOString()
+        });
+        alert('Map settings saved successfully!');
+    } catch (error) {
+        alert('Error saving: ' + error.message);
+    }
+};
+
+// Add to the existing onAuthStateChanged user logged in block:
+// loadContactContent();
     </script>
 </body>
 </html>
